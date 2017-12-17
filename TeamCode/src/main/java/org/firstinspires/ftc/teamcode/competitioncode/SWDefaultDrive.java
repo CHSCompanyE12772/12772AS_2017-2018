@@ -11,8 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp(name="Main SW Drive", group="TeamCode")
-//@Disabled             //Enables or disables such OpMode (hide or show on Driver Station OpMode List
-
+//@Disabled             //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 
 public class SWDefaultDrive extends LinearOpMode {
     // Declare OpMode members.
@@ -40,19 +39,16 @@ public class SWDefaultDrive extends LinearOpMode {
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
             r.update();
 
-
             //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware12772.java FOR SOME REASON!
             telemetry.addData("Status", "Run Time: " + r.runtime.toString());
             telemetry.addData("Drive Speed", r.driveSpeedStick);
             telemetry.addData("Motor Power", "leftDrive: " + r.leftDrive.getPower() + " rightDrive: " + r.rightDrive.getPower() + " Arm: " + r.mainArm.getPower());
             telemetry.addData("Servo POS", " clawPOS: " + r.clawsPOS + "leftClaw: " + r.leftClaw.getPosition() + " rightClaw: " + r.rightClaw.getPosition());
-            //telemetry.addData("Claw Adjustment Coefficient/Offset", r.clawsOffset);
+//            telemetry.addData("Claw Adjustment Coefficient/Offset", r.clawsOffset);
             telemetry.addData("LeftClawAdjustments","Offset: " + r.leftClawOffset);
             telemetry.addData("RightClawAdjustments","Offset: " + r.rightClawOffset);
 //            telemetry.addData("Arm ACT POS", r.mainArm.getCurrentPosition());
             telemetry.update();
-
         }
-
     }
 }
