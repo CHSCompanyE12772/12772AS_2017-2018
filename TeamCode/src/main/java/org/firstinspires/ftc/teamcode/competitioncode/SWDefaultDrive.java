@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by SayoriIsBestGirl on 28 Nov.
+ * Created by Jose on 28 Nov.
  * Last modified 17 Dec by Carlos
  * Main TeleOp Program (or soon to be). Godspeed.
  */

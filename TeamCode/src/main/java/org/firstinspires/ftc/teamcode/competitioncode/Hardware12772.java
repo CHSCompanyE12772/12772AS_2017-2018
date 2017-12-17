@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by Josesej on 16 Nov.
+ * Created by Jose on 16 Nov.
  * Last modified 17 Dec by Carlos
  * Used to extend to program common functions
  */
