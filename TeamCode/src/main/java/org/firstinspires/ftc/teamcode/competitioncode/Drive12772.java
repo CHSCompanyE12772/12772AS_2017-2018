@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
  * Created by Josie on 10 Nov.
- * Last modified 10 Nov by Josiphina
- * Main Program for driving Company E robot
+ * Last modified 10 Nov by Jose
+ * Main Program for driving Company E robot while other program is being developed...
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
