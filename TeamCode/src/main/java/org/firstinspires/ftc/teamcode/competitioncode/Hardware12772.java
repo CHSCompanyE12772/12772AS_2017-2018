@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
-/**
+/*
  * Created by Jose on 16 Nov.
- * Last modified 17 Dec by Carlos
+ * Last modified 19 Dec by Jose and Carlos
  * Used to extend to program common functions
  */
 
@@ -67,6 +67,7 @@ class Hardware12772{
     Hardware12772(){
     }
     //Any purpose for this?
+    //It's a default constructor. The code will probably work without it, but we may as well leave it here just in case.
 
     void init(HardwareMap ahwMap, boolean isAuto) {
         // Save reference to Hardware map
@@ -180,10 +181,13 @@ class Hardware12772{
 
     void setArmPositionJoystick(double y, double x, boolean clk){
         double OutputMax = mainArmPowerMax;
-        if (y > 0)  OutputMax *= 0;
+        if (y > 0)
+            OutputMax *= 0;
         mainArmPower = y * OutputMax;
-        if (mainArmHolding) mainArmPower += mainArmHoldingPower;
-        if (clk) mainArmHolding = !mainArmHolding;
+        if (mainArmHolding)
+            mainArmPower += mainArmHoldingPower;
+        if (clk)
+            mainArmHolding = !mainArmHolding;
     }
 
 /*
