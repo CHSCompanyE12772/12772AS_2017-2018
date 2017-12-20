@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main TeleOP mode, currently (and probably forwver will) uses Hardware12772.
+ * Main TeleOP mode, currently (and probably forever will) uses Hardware12772.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -32,7 +32,7 @@ public class SWDefaultDrive extends LinearOpMode {
             r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
             //r.setArmPositionDPad(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Outdated, but might be useful in the future.
-            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11));
+            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11), gamepad1.back);
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
             r.update();
 

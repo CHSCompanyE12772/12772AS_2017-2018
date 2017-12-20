@@ -103,7 +103,7 @@ class Hardware12772{
         }
         mainArm.setMode(DcMotor.RunMode.RESET_ENCODERS);
 //        mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Temp
+        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Default. OP modes can change this if needed.
         mainArmPower = mainArmPowerMax;
         mainArm.setTargetPosition(0);
     }
@@ -172,15 +172,22 @@ class Hardware12772{
         }
     }
 
-    void setArmPositionJoystick(double y, double x, boolean clk){
-        double OutputMax = mainArmPowerMax;
-        if (y > 0)
-            OutputMax *= 0;
-        mainArmPower = y * OutputMax;
-        if (mainArmHolding)
-            mainArmPower += mainArmHoldingPower;
-        if (clk)
-            mainArmHolding = !mainArmHolding;
+    void setArmPositionJoystick(double y, double x, boolean toggleHolding, boolean movingToResting){
+        if (movingToResting) {
+            mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mainArm.setTargetPosition(0);
+        }
+        else {
+            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            double OutputMax = mainArmPowerMax;
+            if (y < 0)
+                OutputMax = 1.1 * mainArmHoldingPower;
+            mainArmPower = y * OutputMax;
+            if (mainArmHolding)
+                mainArmPower += mainArmHoldingPower;
+            if (toggleHolding)
+                mainArmHolding = !mainArmHolding;
+        }
     }
 
     void setServoPositionTwoButton(boolean in1, boolean in2){
