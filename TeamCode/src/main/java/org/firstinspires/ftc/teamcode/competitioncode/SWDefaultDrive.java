@@ -32,7 +32,7 @@ public class SWDefaultDrive extends LinearOpMode {
             r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
             //r.setArmPositionDPad(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Outdated, but might be useful in the future.
-            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11), gamepad1.back);
+            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11), gamepad1.start);
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
             r.update();
 
@@ -45,7 +45,8 @@ public class SWDefaultDrive extends LinearOpMode {
 //            telemetry.addData("Claw Adjustment Coefficient/Offset", r.clawsOffset);
             telemetry.addData("LeftClawAdjustments","Offset: " + r.leftClawOffset);
             telemetry.addData("RightClawAdjustments","Offset: " + r.rightClawOffset);
-//            telemetry.addData("Arm ACT POS", r.mainArm.getCurrentPosition());
+            telemetry.addData("Buttons", gamepad1.start+" "+ gamepad1.back);
+            telemetry.addData("Test", gamepad2.start+" "+gamepad2.back);
             telemetry.update();
         }
     }

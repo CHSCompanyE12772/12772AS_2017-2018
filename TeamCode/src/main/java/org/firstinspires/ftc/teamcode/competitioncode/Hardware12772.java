@@ -175,6 +175,7 @@ class Hardware12772{
     void setArmPositionJoystick(double y, double x, boolean toggleHolding, boolean movingToResting){
         if (movingToResting) {
             mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mainArmPower = -0.1;
             mainArm.setTargetPosition(0);
         }
         else {
