@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
-/*
+/**
  * Created by Jose on 16 Nov.
  * Last modified 19 Dec by Jose and Carlos
  * Used to extend to program common functions
@@ -141,12 +141,6 @@ class Hardware12772{
             rightDrivePower = speed;
     }
 
-/*
-    void tankControls(){
-    }
-    //What is this for?
-*/
-
     void povDrive(double x, double y, double speed){
         leftDrivePower = Range.clip(y - x, -speed, speed);
         rightDrivePower = Range.clip(y + x, -speed, speed);
@@ -190,7 +184,6 @@ class Hardware12772{
             mainArmHolding = !mainArmHolding;
     }
 
-/*
     void setArmPositionCareful(boolean in1, boolean in2, boolean in3, boolean in4){
         if (in1) {
             mainArmPositionX += 5;
@@ -205,7 +198,7 @@ class Hardware12772{
             mainArmPositionX -= 100;
         }
     } //Outdated Test Method.
-*/
+
 
     void setServoPositionTwoButton(boolean in1, boolean in2){
         double incr = 0.025;
@@ -217,6 +210,8 @@ class Hardware12772{
 //            TclawsPOS -= incr;
             clawsPOS -= incr;
         }
+        if (clawsPOS < clawPOSMin) clawsPOS = clawPOSMin;
+        if (clawsPOS > clawPOSMax) clawsPOS = clawPOSMax;
     }
 
     void initClawServosPOS(double startPosition){ //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
@@ -230,12 +225,6 @@ class Hardware12772{
     //Maybe we could set the zero position on servos physically before starting OpMode? idek...
 
     void moveClaw(double toPosition){
-        if (toPosition >= clawPOSMax) {
-            toPosition = clawPOSMax;
-        }
-        if (toPosition <= clawPOSMin) {
-            toPosition = clawPOSMin;
-        }
         leftClaw.setPosition(leftClawOffset + toPosition);
         rightClaw.setPosition(rightClawOffset - toPosition);
     }
