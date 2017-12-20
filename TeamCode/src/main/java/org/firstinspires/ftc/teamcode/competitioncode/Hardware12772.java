@@ -52,7 +52,7 @@ class Hardware12772{
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
 
-    boolean[] gamepad1PressedArray = {  //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for being such a bad teacher!
+    boolean[] gamepad1PressedArray = {  //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for being such a bad teacher! <-- Implying she teaches.
             false, false, false, false, false,
             false, false, false, false, false,
             false, false, false, false, false,
@@ -184,23 +184,6 @@ class Hardware12772{
             mainArmHolding = !mainArmHolding;
     }
 
-/*
-    void setArmPositionCareful(boolean in1, boolean in2, boolean in3, boolean in4){
-        if (in1) {
-            mainArmPositionX += 5;
-        }
-        if (in2) {
-            mainArmPositionX += 100;
-        }
-        if (in3) {
-            mainArmPositionX -= 5;
-        }
-        if (in4) {
-            mainArmPositionX -= 100;
-        }
-    } //Outdated Test Method.
-*/
-
     void setServoPositionTwoButton(boolean in1, boolean in2){
         double incr = 0.025;
         if (in1){
@@ -226,6 +209,7 @@ class Hardware12772{
         rightClawOffset =  rightClaw.getPosition() + startPosition;
     }
     //Maybe we could set the zero position on servos physically before starting OpMode? idek...
+    //Maybe, but we don't know where zero is given each servo's offset.
 
     void moveClaw(double toPosition){
         leftClaw.setPosition(leftClawOffset + toPosition);

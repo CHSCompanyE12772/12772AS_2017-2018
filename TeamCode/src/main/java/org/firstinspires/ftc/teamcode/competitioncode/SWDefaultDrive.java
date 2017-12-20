@@ -33,13 +33,13 @@ public class SWDefaultDrive extends LinearOpMode {
         while (opModeIsActive()) {
             r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
-            r.setArmPositionDPad(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Disable when reading arm position
-//            r.setArmPositionCareful(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Use to read arm position.
+            //r.setArmPositionDPad(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Outdated, but might be useful in the future.
             r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11));
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
             r.update();
 
             //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware12772.java FOR SOME REASON!
+            //I think its because telemetry is provided by TeleOP library, which only OP mode classes can use.
             telemetry.addData("Status", "Run Time: " + r.runtime.toString());
             telemetry.addData("Drive Speed", r.driveSpeedStick);
             telemetry.addData("Motor Power", "leftDrive: " + r.leftDrive.getPower() + " rightDrive: " + r.rightDrive.getPower() + " Arm: " + r.mainArm.getPower());
