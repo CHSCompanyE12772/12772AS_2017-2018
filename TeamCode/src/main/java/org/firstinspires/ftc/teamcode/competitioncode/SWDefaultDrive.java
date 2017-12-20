@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by Jose on 28 Nov.
- * Last modified 17 Dec by Carlos
- * Main TeleOp Program (or soon to be). Godspeed.
+ * Main TeleOP mode, currently (and probably forwver will) uses Hardware12772.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

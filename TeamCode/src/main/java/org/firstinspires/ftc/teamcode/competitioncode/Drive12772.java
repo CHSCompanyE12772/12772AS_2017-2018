@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by Josie on 10 Nov.
- * Last modified 10 Nov by Jose
- * Main Program for driving Company E robot while other program is being developed...
- */
+ * Legacy OP Mode to control robot in TeleOP. Does not use a separate hardware class.
+*/
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by Jose on 16 Nov.
- * Last modified 19 Dec by Carlos
- * Used to extend to program common functions
+ * Main Hardware class for robot.
+ * Used for common functions between OP modes, can probably be used between similar robots.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
