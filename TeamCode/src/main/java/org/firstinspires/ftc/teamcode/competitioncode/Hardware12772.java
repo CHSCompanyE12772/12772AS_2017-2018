@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
  * Created by Jose on 16 Nov.
- * Last modified 19 Dec by Jose and Carlos
+ * Last modified 19 Dec by Carlos
  * Used to extend to program common functions
  */
 
@@ -52,7 +52,7 @@ class Hardware12772{
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
 
-    boolean[] gamepad1PressedArray = {  //I'm so sorry for this, I don't know a better way, blame Cruz for leaving...
+    boolean[] gamepad1PressedArray = {  //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for being such a bad teacher!
             false, false, false, false, false,
             false, false, false, false, false,
             false, false, false, false, false,
@@ -184,6 +184,7 @@ class Hardware12772{
             mainArmHolding = !mainArmHolding;
     }
 
+/*
     void setArmPositionCareful(boolean in1, boolean in2, boolean in3, boolean in4){
         if (in1) {
             mainArmPositionX += 5;
@@ -198,7 +199,7 @@ class Hardware12772{
             mainArmPositionX -= 100;
         }
     } //Outdated Test Method.
-
+*/
 
     void setServoPositionTwoButton(boolean in1, boolean in2){
         double incr = 0.025;
@@ -210,8 +211,10 @@ class Hardware12772{
 //            TclawsPOS -= incr;
             clawsPOS -= incr;
         }
-        if (clawsPOS < clawPOSMin) clawsPOS = clawPOSMin;
-        if (clawsPOS > clawPOSMax) clawsPOS = clawPOSMax;
+        if (clawsPOS < clawPOSMin)
+            clawsPOS = clawPOSMin;
+        if (clawsPOS > clawPOSMax)
+            clawsPOS = clawPOSMax;
     }
 
     void initClawServosPOS(double startPosition){ //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
