@@ -1,0 +1,27 @@
+This files contains the legend for what each index of gamepad1PressedArray is reserved for. In the
+future, other similar arrays may be added which require a legend, and thus should be included here.
+
+
+___________________________________________________________________________________________________
+gamepad1PressedArray- boolean array used exclusively by debounceGamepad1Button for boolean button
+inputs from gamepad1.
+INDEXES FOR GAMEPAD1PRESSEDARRAY
+0-
+1-
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-
+11- right_stick_button
+12-
+13-
+14-
+___________________________________________________________________________________________________
+___________________________________________________________________________________________________
+Add other legends here...
+___________________________________________________________________________________________________

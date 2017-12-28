@@ -50,26 +50,28 @@ class Hardware12772{
     double driveSpeedMed = 0.5;
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
-
-    boolean[] gamepad1PressedArray = {  //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for being such a bad teacher! <-- Implying she teaches.
+    //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for
+    // being such a bad teacher! <-- Implying she teaches.
+    boolean[] gamepad1PressedArray = {
             false, false, false, false, false,
             false, false, false, false, false,
             false, false, false, false, false,
     };
-    //See Notebook for which index means what.
-    //Kill Jose for only putting index legend into notebook, then
-    //Add index legend from notebook into this package as a text file.
+    //See 'legends for PressedArrays.txt' for which index means what.
+    //Currently empty, needs to be updated to match notebook when school resumes.
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime(); //lol no clue what these do, prbs very important
+    private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
     Hardware12772(){
     }
     //Any purpose for this?
-    //It's a default constructor. The code will probably work without it, but we may as well leave it here just in case.
+    //It's a default constructor. The code will probably work without it, but we may as well leave
+    //it here just in case.
 
+    //Main function called for initialization stage
     void init(HardwareMap ahwMap, boolean isAuto) {
         // Save reference to Hardware map
         hwMap = ahwMap;
@@ -97,7 +99,11 @@ class Hardware12772{
         rightDrive.setPower(0);
         mainArm.setPower(0);
 
-        if (isAuto) {   //RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to avoid when possible.
+        /*
+        RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
+        avoid when possible.
+        */
+        if (isAuto) {
             leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
@@ -111,6 +117,7 @@ class Hardware12772{
         mainArm.setTargetPosition(0);
     }
 
+    //Main function usually called repeatedly after 'Start'
     void update(){
         // Send calculated power to DRIVE MOTORS
         leftDrive.setPower(leftDrivePower);
@@ -136,7 +143,8 @@ class Hardware12772{
         mainArm.setPower(mainArmPower);
     }
 
-    void setDriveSpeed(double speed){ //used in Autonomous to set speed but retain direction.
+    //used in Autonomous to set speed but retain direction.
+    void setDriveSpeed(double speed){
         //Left
         if (leftDrivePower != 0.0) //avoids divide by zero
             leftDrivePower *= speed/Math.abs(leftDrivePower); //speed times sign of drivepower
@@ -149,7 +157,8 @@ class Hardware12772{
             rightDrivePower = speed;
     }
 
-    void povDrive(double x, double y, double speed){ //set drivePower given single-joystick input
+    //set drivePower given single-joystick input
+    void povDrive(double x, double y, double speed){
         //I think this should use Range.scale(y -+ x, -1.0, 1.0, -speed, speed); instead.
         leftDrivePower = Range.clip(y - x, -speed, speed);
         rightDrivePower = Range.clip(y + x, -speed, speed);
@@ -167,7 +176,8 @@ class Hardware12772{
         }
     }
 
-    void setArmPositionDPad(boolean in1, boolean in2, boolean in3, boolean in4) {//legacy function to convert 3-button input to array index
+    //legacy function to convert 3-button input to array index
+    void setArmPositionDPad(boolean in1, boolean in2, boolean in3, boolean in4) {
         if (in1) {
             mainArmPosition = 0;
         }
@@ -219,24 +229,27 @@ class Hardware12772{
             clawsPOS = clawPOSMax;
     }
 
-    void initClawServosPOS(double startPosition){ //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
+    //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
+    //Maybe we could set the zero position on servos physically before starting OpMode? idek...
+    //Maybe, but we don't know where zero is given each servo's offset.
+    //Perhaps moving the claw during init would help?
+    void initClawServosPOS(double startPosition){
         leftClaw.setPosition(0.0);
         rightClaw.setPosition(0.0);
         leftClaw.setPosition(startPosition);
         rightClaw.setPosition(startPosition);
         leftClawOffset =   leftClaw.getPosition() - startPosition;
         rightClawOffset =  rightClaw.getPosition() + startPosition;
-    //Maybe we could set the zero position on servos physically before starting OpMode? idek...
-    //Maybe, but we don't know where zero is given each servo's offset.
-    //Perhaps moving the claw during init would help?
     }
 
-    void moveClaw(double toPosition){ //set positions of claw servos
+    //set positions of claw servos
+    void moveClaw(double toPosition){
         leftClaw.setPosition(leftClawOffset + toPosition);
         rightClaw.setPosition(rightClawOffset - toPosition);
     }
 
-    boolean debounceGamepad1Button(boolean input, int index){ //returns true on rising edge of bool input
+    //returns true on rising edge of bool input, although this probably isn't the proper use of the name 'debounce'
+    boolean debounceGamepad1Button(boolean input, int index){
         if (input != gamepad1PressedArray[index]){
             gamepad1PressedArray[index] = input;
             return input;
@@ -245,7 +258,9 @@ class Hardware12772{
     }
 
     void cTelemetry() {     //cTelemetry = Common Telemetry
-        // ¯\_(ツ)_/¯
+        /*
+         ¯\_(ツ)_/¯
+        */
 
     }
 }

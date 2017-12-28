@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp(name="Main Drive with Assists", group="TeamCode")
-//@Disabled             //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+//@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 
 public class SWDefaultDrive extends LinearOpMode {
 
@@ -45,11 +45,24 @@ public class SWDefaultDrive extends LinearOpMode {
 
             //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware12772.java FOR SOME REASON!
             //I think its because telemetry is provided by TeleOP library, which only OP mode classes can use.
-            telemetry.addData("Status", "Run Time: " + r.runtime.toString());
+            telemetry.addData("Status",
+                    "Run Time: " + r.runtime.toString()
+            );
             telemetry.addData("Drive Speed", r.driveSpeedStick);
-            telemetry.addData("Motor Power", "leftDrive: " + r.leftDrive.getPower() + " rightDrive: " + r.rightDrive.getPower() + " Arm: " + r.mainArm.getPower());
-            telemetry.addData("Servo POS", " clawPOS: " + r.clawsPOS + "leftClaw: " + r.leftClaw.getPosition() + " rightClaw: " + r.rightClaw.getPosition());
-            telemetry.addData("ClawOffsets","left: " + r.leftClawOffset + " right: " + r.rightClawOffset);
+            telemetry.addData("Motor Power",
+                    " leftDrive: " + r.leftDrive.getPower() +
+                           " rightDrive: " + r.rightDrive.getPower() +
+                           " Arm: " + r.mainArm.getPower()
+            );
+            telemetry.addData("Servo POS",
+                    " clawPOS: " + r.clawsPOS +
+                           " leftClaw: " + r.leftClaw.getPosition() +
+                           " rightClaw: " + r.rightClaw.getPosition()
+            );
+            telemetry.addData("ClawOffsets",
+                    "left: " + r.leftClawOffset +
+                           " right: " + r.rightClawOffset
+            );
             telemetry.addData("Pad1 start&back", gamepad1.start+" "+ gamepad1.back);
             telemetry.addData("Pad2 start&back", gamepad2.start+" "+ gamepad2.back);
             telemetry.update();

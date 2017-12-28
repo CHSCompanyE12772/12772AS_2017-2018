@@ -71,8 +71,15 @@ public class Drive12772 extends LinearOpMode {
         leftClaw.setPosition(0.1+clawsPOS);
         rightClaw.setPosition(1-clawsPOS);
 
-        telemetry.addData("Motor Power", "leftDrive: " + leftDrive.getPower() + " rightDrive: " + rightDrive.getPower() + " Arm: " + mainArm.getPower());
-        telemetry.addData("Servo POS", "leftClaw: " + leftClaw.getPosition() + " rightClaw: " + rightClaw.getPosition());
+        telemetry.addData("Motor Power",
+                "leftDrive: " + leftDrive.getPower() +
+                       " rightDrive: " + rightDrive.getPower() +
+                       " Arm: " + mainArm.getPower()
+        );
+        telemetry.addData("Servo POS",
+                "leftClaw: " + leftClaw.getPosition() +
+                       " rightClaw: " + rightClaw.getPosition()
+        );
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
