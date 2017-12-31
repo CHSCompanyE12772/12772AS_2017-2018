@@ -1,11 +1,9 @@
-This files contains the legend for what each index of gamepad1PressedArray is reserved for. In the
-future, other similar arrays may be added which require a legend, and thus should be included here.
-
-
+This files contains the legend for what each index of debouncePressedArray is reserved for.
+See Hardware12772 for usage.
 ___________________________________________________________________________________________________
-gamepad1PressedArray- boolean array used exclusively by debounceGamepad1Button for boolean button
-inputs from gamepad1.
-INDEXES FOR GAMEPAD1PRESSEDARRAY
+INDEXES FOR GAMEPADS 1 AND 2
+debouncePressedArray[1] and debouncePressedArray[2] are reserved for debouncing physical boolean
+buttons
 0-
 1-
 2-
@@ -22,6 +20,27 @@ INDEXES FOR GAMEPAD1PRESSEDARRAY
 13-
 14-
 ___________________________________________________________________________________________________
+___________________________________________________________________________________________________
+INDEXES FOR "GAMEPAD" ZERO
+The zero index for debouncePressedArray (AKA gamepad zero) is used for any boolean logic that needs
+debouncing yet is not a physical boolean button. Use this whenever using an index for gamepads 1 or
+2 is inappropriate. Add any uses of debouncePressedArray[0] to this list.
+0-
+1-
+2-
+3-
+4-
+5-
+6-
+7-
+8-
+9-
+10-
+11-
+12-
+13-
+14-
+______________________________________________________________________________________________________________________________________________________________________________________________________
 ___________________________________________________________________________________________________
 Add other legends here...
 ___________________________________________________________________________________________________

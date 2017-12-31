@@ -57,6 +57,8 @@ class Hardware12772{
             false, false, false, false, false,
             false, false, false, false, false,
     };
+    //the multi-dimentsional array below should replace gamepad1.PressedArray.
+    boolean[][] debouncePressedArray = new boolean[3][15]; //3 gamepads, 15 debounce buttons each.
     //See 'legends for PressedArrays.txt' for which index means what.
     //Currently empty, needs to be updated to match notebook when school resumes.
 
@@ -75,6 +77,9 @@ class Hardware12772{
     void init(HardwareMap ahwMap, boolean isAuto) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+
+        for(int i = debouncePressedArray.length - 1; i>=0; i--) //initializes all gamepad debouncers
+            Arrays.fill(debouncePressedArray[i], false);
 
         /*
            Initialize the hardware variables. Note that the strings used here as parameters
@@ -252,6 +257,14 @@ class Hardware12772{
     boolean debounceGamepad1Button(boolean input, int index){
         if (input != gamepad1PressedArray[index]){
             gamepad1PressedArray[index] = input;
+            return input;
+        }
+        else return false;
+    }
+    /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
+    boolean debounce(boolean input, int gamepadNumber, int buttonIndex){
+        if (input != debouncePressedArray[gamepadNumber][buttonIndex]){
+            debouncePressedArray[gamepadNumber][buttonIndex] = input;
             return input;
         }
         else return false;

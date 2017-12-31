@@ -34,9 +34,15 @@ public class SWDefaultDrive extends LinearOpMode {
             //Control drive motors
             r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
+
             //Control Arm power and/or position
-            //r.setArmPositionDPad(gamepad1.dpad_up,gamepad1.dpad_right,gamepad1.dpad_down,gamepad1.dpad_left); //Outdated, but might be useful in the future.
-            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x,r.debounceGamepad1Button(gamepad1.right_stick_button,11), gamepad1.start);
+/*            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x, //Version from before Xmas break, kept here just in case I broke something
+                    r.debounceGamepad1Button(gamepad1.right_stick_button,11),
+                    gamepad1.start);
+*/            r.setArmPositionJoystick(gamepad1.right_stick_y,  gamepad1.right_stick_x,
+                    r.debounce(gamepad1.right_stick_button,1,11),
+                    gamepad1.start);
+
             //Control claw position
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
 
