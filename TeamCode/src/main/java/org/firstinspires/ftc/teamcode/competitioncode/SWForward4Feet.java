@@ -35,13 +35,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
- * Created by (Jose) on 21 Nov.
- * Last modified 4 Dec by J*O*S*E
- * Moves both wheels forward. Will be used as control to test integration of class hardware methods.
+ * Test autonomous mode.
  */
 
-@Autonomous(name = "Move 4 Fucks", group = "Forward")
-//@Disabled                            // Comment this out to add to the opmode list
+@Autonomous(name = "SWForward4Feet", group = "TeamCode")
+//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class SWForward4Feet extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
@@ -49,16 +47,14 @@ public class SWForward4Feet extends LinearOpMode {
     //Distance Variables
     private double numberOfFeet = 2.5;          //Distance desired to travel
     private double driveWheelDiamater = 3.5;    //Given in inches
-    private int incrementsPerRevolution = 1500;            //Different motor types will read encoders at different constants
+    private int incrementsPerRevolution = 1500;            //Motor types read encoders at different rates. This is a rough empirical value
     private int targetPosition;
-
-
 
     @Override
     public void runOpMode() {
-        r.init(hardwareMap, true);
+        r.init(hardwareMap, true);  //Initialization with safe space for shakes.
 
-        // wait for the start button to be pressed.
+        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         r.runtime.reset();
         r.leftDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -71,10 +67,11 @@ public class SWForward4Feet extends LinearOpMode {
         r.rightDrive.setTargetPosition(targetPosition);
 
         r.update();
-        while (Math.abs(r.leftDrive.getCurrentPosition()-r.leftDrive.getTargetPosition())>50){
-            sleep(200);     // me time
+        //To prevent major seizure near target destination, this code cuts off the motors once it is close enough
+        while (Math.abs(r.leftDrive.getCurrentPosition()-r.leftDrive.getTargetPosition())>50){ //checks if close enough
+            sleep(200);     // time interval between checking if close enough
         }
-//        sleep(20000);     // pause for servos to move
+//        sleep(20000);     // give servos time to move before opMode ends, use if anti-seize code is not.
         r.setDriveSpeed(0.0);
     }
 }
