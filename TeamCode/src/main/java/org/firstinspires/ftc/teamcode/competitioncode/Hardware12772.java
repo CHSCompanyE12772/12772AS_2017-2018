@@ -227,11 +227,7 @@ class Hardware12772{
             clawsPOS -= incr;
 
         //I think this code can be simplified using:
-        //clawPOS = Range.clip(clawPOS, clawMINPOS, clawMAXPOS);
-        if (clawsPOS < clawPOSMin)
-            clawsPOS = clawPOSMin;
-        if (clawsPOS > clawPOSMax)
-            clawsPOS = clawPOSMax;
+        clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
 
     //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
@@ -253,14 +249,6 @@ class Hardware12772{
         rightClaw.setPosition(rightClawOffset - toPosition);
     }
 
-    //returns true on rising edge of bool input, although this probably isn't the proper use of the name 'debounce'
-    boolean debounceGamepad1Button(boolean input, int index){
-        if (input != gamepad1PressedArray[index]){
-            gamepad1PressedArray[index] = input;
-            return input;
-        }
-        else return false;
-    }
     /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
     boolean debounce(boolean input, int gamepadNumber, int buttonIndex){
         if (input != debouncePressedArray[gamepadNumber][buttonIndex]){
