@@ -34,14 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -55,21 +48,65 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name = "Vu Fu test", group = "TeamCode")
-@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class SWPlaceCubeWithVUFU extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
 
+    /** {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * localization engine. */
+    VuforiaLocalizer vuforia;
+
+
     @Override
     public void runOpMode() {
-        r.init(hardwareMap, true);  //Initialization with safe space for shakes.
+        r.init(hardwareMap, true);  //Initialization with safe space for snowflake-shakes.
+        r.clawsPOS = 0.5;  //Claws are set to an extended position
+//        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
+        //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
+        r.leftClawOffset = 0.1;
+        r.rightClawOffset = 1.0;
+        /* //Use these two lines of code below for displaying camera, OR use parameterless line below that for non-displayed camera.
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        // Wait for the game to start (driver presses PLAY)
+        parameters.vuforiaLicenseKey = r.ourVuforiaLicenseKey;
+
+        /** Indicate which camera on the RC to use. Here we chose the back (HiRes) camera (for
+         * greater range), but the front camera might be more convenient. */
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+
+        /**Load the data set containing the VuMarks for Relic Recovery. There's only one trackable
+         * in this data set: all three of the VuMarks in the game were created from this one template,
+         * but differ in their instance id information.
+         * @see VuMarkInstanceId */
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
+
+        telemetry.update();
+        //Wait for the game to start (driver presses PLAY)
         waitForStart();
         r.runtime.reset();
-
         r.update();
-        while (opModeIsActive()){
+
+        relicTrackables.activate();
+
+        while (opModeIsActive()) {
+
+            /**
+             * See if any of the instances of {@link relicTemplate} are currently visible.
+             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
+             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
+             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
+             */
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("VuMark:", vuMark);
+
+            telemetry.update();
         }
     }
 }
