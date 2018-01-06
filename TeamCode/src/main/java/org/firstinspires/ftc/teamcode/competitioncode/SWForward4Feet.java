@@ -38,14 +38,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Test autonomous mode.
  */
 
-@Autonomous(name = "SWForward4Feet", group = "TeamCode")
+@Autonomous(name = "Move 4 Feet test", group = "TeamCode")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class SWForward4Feet extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
 
     //Distance Variables
-    private double numberOfFeet = 2.5;          //Distance desired to travel
+    private double numberOfFeet = 4.0;          //Distance desired to travel
     private double driveWheelDiamater = 3.5;    //Given in inches
     private int incrementsPerRevolution = 1500;            //Motor types read encoders at different rates. This is a rough empirical value
     private int targetPosition;
@@ -67,11 +67,11 @@ public class SWForward4Feet extends LinearOpMode {
         r.rightDrive.setTargetPosition(targetPosition);
 
         r.update();
+        r.setDriveSpeed(r.driveSpeedMin);
         //To prevent major seizure near target destination, this code cuts off the motors once it is close enough
         while (Math.abs(r.leftDrive.getCurrentPosition()-r.leftDrive.getTargetPosition())>50){ //checks if close enough
             sleep(200);     // time interval between checking if close enough
         }
-//        sleep(20000);     // give servos time to move before opMode ends, use if anti-seize code is not.
         r.setDriveSpeed(0.0);
     }
 }
