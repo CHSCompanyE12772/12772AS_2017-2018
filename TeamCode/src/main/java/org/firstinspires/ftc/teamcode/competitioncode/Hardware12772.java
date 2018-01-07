@@ -170,15 +170,19 @@ class Hardware12772{
         rightDrivePower = Range.clip(y + x, -speed, speed);
     }
 
-    void setDriveSpeedWithButtons(boolean in1, boolean in2, boolean in3){
-        if (in1) {
-            driveSpeedStick = driveSpeedMin;
+    void setDriveSpeedWithButtons(boolean increase, boolean decrease){
+        //Maybe we should do this with an array? Idk, I don't think it's necessary.
+        if (increase) {
+            if (driveSpeedStick == driveSpeedMin) driveSpeedStick = driveSpeedMed;
+            else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMax;
+            else if (driveSpeedStick == driveSpeedMax) ;//TODO: add sound cue for this condition.
+            else driveSpeedStick = driveSpeedMed;
         }
-        if (in2) {
-            driveSpeedStick = driveSpeedMed;
-        }
-        if (in3) {
-            driveSpeedStick = driveSpeedMax;
+        if (decrease) {
+            if (driveSpeedStick == driveSpeedMin) ;//TODO: add sound cue for this condition.
+            else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMin;
+            else if (driveSpeedStick == driveSpeedMax) driveSpeedStick = driveSpeedMed;
+            else driveSpeedStick = driveSpeedMed;
         }
     }
 

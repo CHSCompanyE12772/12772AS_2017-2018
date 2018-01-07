@@ -32,11 +32,14 @@ public class SWDefaultDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
             //Control drive motors
-            r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
+            r.setDriveSpeedWithButtons(
+                    r.debounce(gamepad1.a,1,8),
+                    r.debounce(gamepad1.b,1,7));
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
 
             //Control Arm power and/or position
-            r.setArmPositionJoystick(gamepad1.right_stick_y,  gamepad1.right_stick_x,
+            r.setArmPositionJoystick(
+                    gamepad1.right_stick_y,  gamepad1.right_stick_x,
                     r.debounce(gamepad1.right_stick_button,1,11),
                     gamepad1.start);
 
