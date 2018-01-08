@@ -5,6 +5,8 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Used for common functions between OP modes, can probably be used between similar robots.
  */
 
+import android.media.MediaPlayer;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -269,4 +271,9 @@ class Hardware12772{
         */
 
     }
+/*
+    void playFuckYouSound() {
+        final MediaPlayer fuckYouSound = MediaPlayer.create(this, res.raw.buzz); //FIXME
+        fuckYouSound.start();
+    } */
 }
