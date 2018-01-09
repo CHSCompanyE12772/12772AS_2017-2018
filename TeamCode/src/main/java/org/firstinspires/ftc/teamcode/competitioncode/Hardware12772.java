@@ -40,7 +40,7 @@ class Hardware12772{
     //no, the offset is to correct the individual imperfect servos.
 
     // MAIN ARM POS AND POWER
-    double mainArmPowerMax = 0.5;
+    double mainArmPowerMax = 0.75;
     int[] mainArmPositions = {10, 120, 260, 320};
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
