@@ -115,6 +115,8 @@ class Hardware12772{
         avoid when possible.
         */
         if (isAuto) {
+            leftDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            rightDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
             leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
