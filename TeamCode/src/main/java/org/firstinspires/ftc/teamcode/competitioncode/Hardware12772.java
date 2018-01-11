@@ -5,8 +5,6 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Used for common functions between OP modes, can probably be used between similar robots.
  */
 
-import android.media.MediaPlayer;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,6 +20,9 @@ class Hardware12772{
     Servo leftClaw = null;
     Servo rightClaw = null;
     DcMotor mainArm = null;
+
+    Servo leftTopClaw = null;
+    Servo rightTopClaw = null;
 
     //Motor power variables
     double leftDrivePower;
@@ -94,6 +95,8 @@ class Hardware12772{
         leftClaw = hwMap.get(Servo.class, "leftClaw");      //LEFT CLAW SERVO
         rightClaw = hwMap.get(Servo.class, "rightClaw");      //RIGHT CLAW SERVO
         mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
+        leftTopClaw = hwMap.get(Servo.class, "leftTopClaw");      //UPPER LEFT CLAW SERVO
+        rightTopClaw = hwMap.get(Servo.class, "rightTopClaw");      //UPPER RIGHT CLAW SERVO
 
         // Since motors face opposite on each side, one drive motor needs to be reversed.
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -248,12 +251,20 @@ class Hardware12772{
         rightClaw.setPosition(startPosition);
         leftClawOffset =   leftClaw.getPosition() - startPosition;
         rightClawOffset =  rightClaw.getPosition() + startPosition;
+
+        leftTopClaw.setPosition(0.0);
+        rightTopClaw.setPosition(0.0);
+        leftTopClaw.setPosition(startPosition);
+        rightTopClaw.setPosition(startPosition);
     }
 
-    //set positions of claw servos
+    //set positions of TopClaw servos
     void moveClaw(double toPosition){
         leftClaw.setPosition(leftClawOffset + toPosition);
         rightClaw.setPosition(rightClawOffset - toPosition);
+
+        leftTopClaw.setPosition(leftClawOffset + toPosition);
+        rightTopClaw.setPosition(rightClawOffset - toPosition);
     }
 
     /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
