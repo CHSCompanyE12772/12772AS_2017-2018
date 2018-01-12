@@ -25,7 +25,7 @@ class Hardware12772{
     Servo leftTopClaw = null;
     Servo rightTopClaw = null;
 
-    //Motor power variables
+    //Motor power variables.
     double leftDrivePower;
     double rightDrivePower;
     double mainArmPower;
