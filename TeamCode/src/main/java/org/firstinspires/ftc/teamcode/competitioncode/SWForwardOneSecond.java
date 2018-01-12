@@ -17,7 +17,7 @@ public class SWForwardOneSecond extends LinearOpMode {
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
 
     //Distance Variables
-    private int timeToMove = 1000; //Given in milliseconds
+    private int timeToMove = 2000; //Given in milliseconds. Change this to change distance robot moves.
 
     @Override
     public void runOpMode() {
@@ -26,7 +26,7 @@ public class SWForwardOneSecond extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         r.runtime.reset();
-        r.setDriveSpeed(r.driveSpeedMed);
+        r.setDriveSpeed(-r.driveSpeedMed); //FIXME: For some reason, this is reversed. IDK why.
         r.update();
         sleep(timeToMove);
         r.setDriveSpeed(0.0);

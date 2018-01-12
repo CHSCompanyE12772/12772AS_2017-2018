@@ -21,8 +21,10 @@ public class SWDefaultDrive extends LinearOpMode {
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
-        r.leftClawOffset = 0.1;
+        r.leftClawOffset = 0.0;
         r.rightClawOffset = 1.0;
+        r.leftTopClawOffset = 1.0;
+        r.rightTopClawOffset = 0.0;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

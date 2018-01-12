@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 /**
  * Main Hardware class for robot.
  * Used for common functions between OP modes, can probably be used between similar robots.
+ * TODO: We should eventually divide this class into a hardware class and a general robot class.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,6 +38,8 @@ class Hardware12772{
     //  CLAW OFFSET. used to adjust to real values
     double leftClawOffset = 0.0; //Default ideal values, modified later
     double rightClawOffset = 1.0;
+    double leftTopClawOffset = 1.0;
+    double rightTopClawOffset = 0.0;
     //do we need an offset for each claw or can we just use one offset for both?
     //no, the offset is to correct the individual imperfect servos.
 
@@ -53,13 +56,6 @@ class Hardware12772{
     double driveSpeedMed = 0.5;
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
-    //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for
-    // being such a bad teacher! <-- Implying she teaches.
-    boolean[] gamepad1PressedArray = {
-            false, false, false, false, false,
-            false, false, false, false, false,
-            false, false, false, false, false,
-    };
     //the multi-dimentsional array below should replace gamepad1.PressedArray.
     boolean[][] debouncePressedArray = new boolean[3][15]; //3 gamepads, 15 debounce buttons each.
     //See 'legends for PressedArrays.txt' for which index means what.
@@ -75,7 +71,7 @@ class Hardware12772{
     }
     //Any purpose for this?
     //It's a default constructor. The code will probably work without it, but we may as well leave
-    //it here just in case.
+    //it here just in case. Called when a zero-parameter Hardware12772 instance is created.
 
     //Main function called for initialization stage
     void init(HardwareMap ahwMap, boolean isAuto) {
@@ -253,11 +249,6 @@ class Hardware12772{
         rightClaw.setPosition(startPosition);
         leftClawOffset =   leftClaw.getPosition() - startPosition;
         rightClawOffset =  rightClaw.getPosition() + startPosition;
-
-        leftTopClaw.setPosition(0.0);
-        rightTopClaw.setPosition(0.0);
-        leftTopClaw.setPosition(startPosition);
-        rightTopClaw.setPosition(startPosition);
     }
 
     //set positions of TopClaw servos
@@ -265,8 +256,8 @@ class Hardware12772{
         leftClaw.setPosition(leftClawOffset + toPosition);
         rightClaw.setPosition(rightClawOffset - toPosition);
 
-        leftTopClaw.setPosition(leftClawOffset + toPosition);
-        rightTopClaw.setPosition(rightClawOffset - toPosition);
+        leftTopClaw.setPosition(leftTopClawOffset - toPosition);
+        rightTopClaw.setPosition(rightTopClawOffset + toPosition);
     }
 
     /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
@@ -284,9 +275,4 @@ class Hardware12772{
         */
 
     }
-/*
-    void playFuckYouSound() {
-        final MediaPlayer fuckYouSound = MediaPlayer.create(this, res.raw.buzz); //FIXME
-        fuckYouSound.start();
-    } */
 }
