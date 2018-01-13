@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-
 /**
  * Test autonomous mode, last resort.
  * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
