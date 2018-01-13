@@ -215,41 +215,34 @@ class Hardware12772{
         }
         else { //otherwise, joystick is used to control arm motor power.
             mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-            //Some math that works for some reason
-            double OutputMax = mainArmPowerMax;
-            if (y < 0)
-                OutputMax = 1.5 * mainArmHoldingPower;
-            mainArmPower = y * OutputMax;
-
-            if (mainArmHolding) //Give additional power if holding, allowing user to release joystick without arm falling.
-                mainArmPower += mainArmHoldingPower;
             if (toggleHolding) //used debounced button to toggle if holding.
                 mainArmHolding = !mainArmHolding;
+
+            if (y < 0) { //Moving arm down
+                mainArmPower = y * mainArmMaxDownPower;
+                if (mainArmHolding)
+                    //when moving the arm down, subtract it from  holding power.
+                    mainArmPower += mainArmHoldingPower;
+            }
+            else { //Moving arm up OR not moving arm
+                mainArmPower = y * mainArmMaxUpPower;
+                if (mainArmHolding && mainArmHoldingPower > mainArmPower)
+                    //when moving arm up, ignore input unless greater than holding power.
+                    mainArmPower = mainArmHoldingPower;
+            }
+
         }
     }
 
-    void ArmControlRJoystick(double y, boolean toggleHolding) {
-        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        mainArmPower = y;
-
-        if (mainArmHolding)  //give additional power if holding, allowing user to release joystick without arm falling
-            mainArmPower += mainArmHoldingPower;
-        if (toggleHolding)  //used debounced button to toggle if holding
-            mainArmHolding = !mainArmHolding;
-    }
-
-    void setServoPositionTwoButton(boolean in1, boolean in2, boolean reset){
-        double incr = 0.025;
-        if (in1)
+    void setServoPositionTwoButton(boolean increase, boolean decrease, boolean reset){
+        double incr = 0.025; //increment per update. control how fast clawPOS changes.
+        if (increase)
             clawsPOS += incr;
-        if (in2)
+        if (decrease)
             clawsPOS -= incr;
         if (reset)
-            clawsPOS = 0.55;
-
-        //I think this code can be simplified using:
+            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.1;
+                    // = middle position/2 * 1.1
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
 
