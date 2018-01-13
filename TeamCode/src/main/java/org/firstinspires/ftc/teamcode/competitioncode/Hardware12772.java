@@ -229,12 +229,14 @@ class Hardware12772{
         }
     }
 
-    void setServoPositionTwoButton(boolean in1, boolean in2){
+    void setServoPositionTwoButton(boolean in1, boolean in2, boolean reset){
         double incr = 0.025;
         if (in1)
             clawsPOS += incr;
         if (in2)
             clawsPOS -= incr;
+        if (reset)
+            clawsPOS = 0.55;
 
         //I think this code can be simplified using:
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
