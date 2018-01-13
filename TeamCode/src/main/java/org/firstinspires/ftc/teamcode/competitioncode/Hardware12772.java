@@ -217,9 +217,7 @@ class Hardware12772{
             //Some math that works for some reason
             double OutputMax = mainArmPowerMax;
             if (y < 0)
-                OutputMax = 1.1 * mainArmHoldingPower;
-            else
-                OutputMax = 1.1 * mainArmHoldingPower;
+                OutputMax = 0.9 * mainArmHoldingPower;
             mainArmPower = y * OutputMax;
 
             if (mainArmHolding) //Give additional power if holding, allowing user to release joystick without arm falling.
@@ -229,12 +227,14 @@ class Hardware12772{
         }
     }
 
-    void setServoPositionTwoButton(boolean in1, boolean in2){
+    void setServoPositionTwoButton(boolean in1, boolean in2, boolean reset){
         double incr = 0.025;
         if (in1)
             clawsPOS += incr;
         if (in2)
             clawsPOS -= incr;
+        if (reset)
+            clawsPOS = 0.55;
 
         //I think this code can be simplified using:
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
