@@ -49,6 +49,8 @@ class Hardware12772{
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
     double mainArmHoldingPower = 0.2;
+    double mainArmMaxUpPower = 1.0;
+    double mainArmMaxDownPower = 0.5;
     boolean mainArmHolding = false;
 
     // DRIVE SPEED
@@ -205,7 +207,7 @@ class Hardware12772{
         }
     }
 
-    void setArmPositionJoystick(double y, double x, boolean toggleHolding, boolean movingToResting){
+    void setArmPositionJoystick(double y, boolean toggleHolding, boolean movingToResting){  //TODO: Ask Sergio if we need the start button
         if (movingToResting) { //when moveToResting button is held, arm motor uses encoders to move self.
             mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             mainArmPower = -0.1;
@@ -225,6 +227,17 @@ class Hardware12772{
             if (toggleHolding) //used debounced button to toggle if holding.
                 mainArmHolding = !mainArmHolding;
         }
+    }
+
+    void ArmControlRJoystick(double y, boolean toggleHolding) {
+        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        mainArmPower = y;
+
+        if (mainArmHolding)  //give additional power if holding, allowing user to release joystick without arm falling
+            mainArmPower += mainArmHoldingPower;
+        if (toggleHolding)  //used debounced button to toggle if holding
+            mainArmHolding = !mainArmHolding;
     }
 
     void setServoPositionTwoButton(boolean in1, boolean in2, boolean reset){

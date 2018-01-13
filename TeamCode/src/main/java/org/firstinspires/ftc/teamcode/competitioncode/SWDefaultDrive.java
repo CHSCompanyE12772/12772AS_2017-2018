@@ -42,7 +42,7 @@ public class SWDefaultDrive extends LinearOpMode {
 
             //Control Arm power and/or position
             r.setArmPositionJoystick(
-                    gamepad1.right_stick_y,  gamepad1.right_stick_x,
+                    gamepad1.right_stick_y,
                     r.debounce(gamepad1.right_stick_button,1,11),
                     gamepad1.start);
 
