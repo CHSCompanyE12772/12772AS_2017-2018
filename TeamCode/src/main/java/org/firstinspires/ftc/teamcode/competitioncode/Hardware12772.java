@@ -217,7 +217,7 @@ class Hardware12772{
             //Some math that works for some reason
             double OutputMax = mainArmPowerMax;
             if (y < 0)
-                OutputMax = 0.9 * mainArmHoldingPower;
+                OutputMax = 1.5 * mainArmHoldingPower;
             mainArmPower = y * OutputMax;
 
             if (mainArmHolding) //Give additional power if holding, allowing user to release joystick without arm falling.
