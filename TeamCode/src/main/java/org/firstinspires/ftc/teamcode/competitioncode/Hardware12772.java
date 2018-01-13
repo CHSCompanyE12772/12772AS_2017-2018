@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 /**
  * Main Hardware class for robot.
  * Used for common functions between OP modes, can probably be used between similar robots.
+ * TODO: We should eventually divide this class into a hardware class and a general robot class.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,7 +22,10 @@ class Hardware12772{
     Servo rightClaw = null;
     DcMotor mainArm = null;
 
-    //Motor power variables
+    Servo leftTopClaw = null;
+    Servo rightTopClaw = null;
+
+    //Motor power variables.
     double leftDrivePower;
     double rightDrivePower;
     double mainArmPower;
@@ -34,11 +38,13 @@ class Hardware12772{
     //  CLAW OFFSET. used to adjust to real values
     double leftClawOffset = 0.0; //Default ideal values, modified later
     double rightClawOffset = 1.0;
+    double leftTopClawOffset = 1.0;
+    double rightTopClawOffset = 0.0;
     //do we need an offset for each claw or can we just use one offset for both?
     //no, the offset is to correct the individual imperfect servos.
 
     // MAIN ARM POS AND POWER
-    double mainArmPowerMax = 0.5;
+    double mainArmPowerMax = 0.75;
     int[] mainArmPositions = {10, 120, 260, 320};
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
@@ -50,17 +56,11 @@ class Hardware12772{
     double driveSpeedMed = 0.5;
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
-    //I'm so sorry for this, I don't know a better way, blame Cruz for leaving... and Sherman for
-    // being such a bad teacher! <-- Implying she teaches.
-    boolean[] gamepad1PressedArray = {
-            false, false, false, false, false,
-            false, false, false, false, false,
-            false, false, false, false, false,
-    };
     //the multi-dimentsional array below should replace gamepad1.PressedArray.
     boolean[][] debouncePressedArray = new boolean[3][15]; //3 gamepads, 15 debounce buttons each.
     //See 'legends for PressedArrays.txt' for which index means what.
-    //Currently empty, needs to be updated to match notebook when school resumes.
+
+    String ourVuforiaLicenseKey = "AWQk7mb/////AAAAGZzcT2AtsU7fnFlKo1X5AwwP5Bwu/DPZnIJ6ObPBUoJBAbsK6ZofzC7u7b/ZzaqwD4GdQcla6Cmxqw+2a3u/X2kjfNh/jYnLnHX+vw8GEhgLmgUFPmG6ehcupHxQO+IImFWFdBXYfUIaIKcO0OxnZlg3A8OWthBsSVD3BpuIhkuYaY/pOKEZUalyf0NQepGxMa/n5iL4SYDVNQjmaKwj0lZZU2SNhr12qQWIBg3fF9b3HC33/OFGlQhjFrxYCAXzAV3LnOjptc0D0Y5g9CtQABxB3aoI7ZRkCmHpXpYtcKmq1MGFmzxKNjIL90bJcRJnP7IWyxC2hFzpiLvojC2MbJjDVtVW7jbStZhArGewsAqd";
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -71,7 +71,7 @@ class Hardware12772{
     }
     //Any purpose for this?
     //It's a default constructor. The code will probably work without it, but we may as well leave
-    //it here just in case.
+    //it here just in case. Called when a zero-parameter Hardware12772 instance is created.
 
     //Main function called for initialization stage
     void init(HardwareMap ahwMap, boolean isAuto) {
@@ -91,6 +91,8 @@ class Hardware12772{
         leftClaw = hwMap.get(Servo.class, "leftClaw");      //LEFT CLAW SERVO
         rightClaw = hwMap.get(Servo.class, "rightClaw");      //RIGHT CLAW SERVO
         mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
+        leftTopClaw = hwMap.get(Servo.class, "leftTopClaw");      //UPPER LEFT CLAW SERVO
+        rightTopClaw = hwMap.get(Servo.class, "rightTopClaw");      //UPPER RIGHT CLAW SERVO
 
         // Since motors face opposite on each side, one drive motor needs to be reversed.
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -109,6 +111,8 @@ class Hardware12772{
         avoid when possible.
         */
         if (isAuto) {
+            leftDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            rightDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
             leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
@@ -169,15 +173,19 @@ class Hardware12772{
         rightDrivePower = Range.clip(y + x, -speed, speed);
     }
 
-    void setDriveSpeedWithButtons(boolean in1, boolean in2, boolean in3){
-        if (in1) {
-            driveSpeedStick = driveSpeedMin;
+    void setDriveSpeedWithButtons(boolean increase, boolean decrease){
+        //Maybe we should do this with an array? Idk, I don't think it's necessary.
+        if (increase) {
+            if (driveSpeedStick == driveSpeedMin) driveSpeedStick = driveSpeedMed;
+            else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMax;
+            else if (driveSpeedStick == driveSpeedMax) ;//TODO: add sound cue for this condition.
+            else driveSpeedStick = driveSpeedMed;
         }
-        if (in2) {
-            driveSpeedStick = driveSpeedMed;
-        }
-        if (in3) {
-            driveSpeedStick = driveSpeedMax;
+        if (decrease) {
+            if (driveSpeedStick == driveSpeedMin) ;//TODO: add sound cue for this condition.
+            else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMin;
+            else if (driveSpeedStick == driveSpeedMax) driveSpeedStick = driveSpeedMed;
+            else driveSpeedStick = driveSpeedMed;
         }
     }
 
@@ -227,11 +235,7 @@ class Hardware12772{
             clawsPOS -= incr;
 
         //I think this code can be simplified using:
-        //clawPOS = Range.clip(clawPOS, clawMINPOS, clawMAXPOS);
-        if (clawsPOS < clawPOSMin)
-            clawsPOS = clawPOSMin;
-        if (clawsPOS > clawPOSMax)
-            clawsPOS = clawPOSMax;
+        clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
 
     //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
@@ -247,33 +251,21 @@ class Hardware12772{
         rightClawOffset =  rightClaw.getPosition() + startPosition;
     }
 
-    //set positions of claw servos
+    //set positions of TopClaw servos
     void moveClaw(double toPosition){
         leftClaw.setPosition(leftClawOffset + toPosition);
         rightClaw.setPosition(rightClawOffset - toPosition);
+
+        leftTopClaw.setPosition(leftTopClawOffset - toPosition);
+        rightTopClaw.setPosition(rightTopClawOffset + toPosition);
     }
 
-    //returns true on rising edge of bool input, although this probably isn't the proper use of the name 'debounce'
-    boolean debounceGamepad1Button(boolean input, int index){
-        if (input != gamepad1PressedArray[index]){
-            gamepad1PressedArray[index] = input;
-            return input;
-        }
-        else return false;
-    }
-    /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
     boolean debounce(boolean input, int gamepadNumber, int buttonIndex){
         if (input != debouncePressedArray[gamepadNumber][buttonIndex]){
             debouncePressedArray[gamepadNumber][buttonIndex] = input;
             return input;
         }
-        else return false;
-    }
-
-    void cTelemetry() {     //cTelemetry = Common Telemetry
-        /*
-         ¯\_(ツ)_/¯
-        */
-
+        else
+            return false;
     }
 }

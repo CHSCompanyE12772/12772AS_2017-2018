@@ -21,8 +21,10 @@ public class SWDefaultDrive extends LinearOpMode {
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
-        r.leftClawOffset = 0.1;
+        r.leftClawOffset = 0.0;
         r.rightClawOffset = 1.0;
+        r.leftTopClawOffset = 1.0;
+        r.rightTopClawOffset = 0.0;
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -32,14 +34,14 @@ public class SWDefaultDrive extends LinearOpMode {
         while (opModeIsActive()) {
 
             //Control drive motors
-            r.setDriveSpeedWithButtons(gamepad1.a,gamepad1.b,gamepad1.x);
+            r.setDriveSpeedWithButtons(
+                    r.debounce(gamepad1.a,1,8),
+                    r.debounce(gamepad1.b,1,7));
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
 
             //Control Arm power and/or position
-/*            r.setArmPositionJoystick(gamepad1.right_stick_y,gamepad1.right_stick_x, //Version from before Xmas break, kept here just in case I broke something
-                    r.debounceGamepad1Button(gamepad1.right_stick_button,11),
-                    gamepad1.start);
-*/            r.setArmPositionJoystick(gamepad1.right_stick_y,  gamepad1.right_stick_x,
+            r.setArmPositionJoystick(
+                    gamepad1.right_stick_y,  gamepad1.right_stick_x,
                     r.debounce(gamepad1.right_stick_button,1,11),
                     gamepad1.start);
 
