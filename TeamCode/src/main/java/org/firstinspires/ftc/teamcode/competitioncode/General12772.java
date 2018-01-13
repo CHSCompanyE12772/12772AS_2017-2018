@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Created by Jose on 1/13/2018.
+ * Main general robot class.
+ * Used for....
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,4 +13,5 @@ import com.qualcomm.robotcore.util.Range;
 import java.util.Arrays;
 
 class General12772 {
+
 }

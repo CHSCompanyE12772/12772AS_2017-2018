@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class SWForward4Feet extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    General12772 g = new General12772(); //Use the shared general robot code.
 
     //Distance Variables
     private double numberOfFeet = 4.0;          //Distance desired to travel

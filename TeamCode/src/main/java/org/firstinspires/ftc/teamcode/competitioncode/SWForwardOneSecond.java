@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class SWForwardOneSecond extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    General12772 g = new General12772(); //Use the shared general robot code.
 
     //Distance Variables
     private int timeToMove = 1300; //Given in milliseconds. Change this to change distance robot moves.

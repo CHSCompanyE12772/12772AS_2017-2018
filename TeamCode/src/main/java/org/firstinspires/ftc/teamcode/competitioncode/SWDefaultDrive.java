@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 public class SWDefaultDrive extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    General12772 g = new General12772(); //Use the shared general robot code.
 
     @Override //Does anyone know what this is or what it does?
     public void runOpMode() {

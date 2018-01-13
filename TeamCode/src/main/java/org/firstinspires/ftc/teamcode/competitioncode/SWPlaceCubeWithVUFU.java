@@ -52,6 +52,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 public class SWPlaceCubeWithVUFU extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    General12772 g = new General12772(); //Use the shared general robot code.
 
     /** {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine. */
