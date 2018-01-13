@@ -265,6 +265,7 @@ class Hardware12772{
             debouncePressedArray[gamepadNumber][buttonIndex] = input;
             return input;
         }
-        else return false;
+        else
+            return false;
     }
 }
