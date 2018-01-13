@@ -47,7 +47,7 @@ public class SWDefaultDrive extends LinearOpMode {
                     gamepad1.start);
 
             //Control claw position
-            r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper);
+            r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper, gamepad1.left_stick_button);
 
             //All runtime code in Hardware12772
             r.update();
