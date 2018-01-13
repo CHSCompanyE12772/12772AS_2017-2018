@@ -260,19 +260,11 @@ class Hardware12772{
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);
     }
 
-    /* BETTER VERSION OF PREVIOUS FUNCTION, if it works.*/
     boolean debounce(boolean input, int gamepadNumber, int buttonIndex){
         if (input != debouncePressedArray[gamepadNumber][buttonIndex]){
             debouncePressedArray[gamepadNumber][buttonIndex] = input;
             return input;
         }
         else return false;
-    }
-
-    void cTelemetry() {     //cTelemetry = Common Telemetry
-        /*
-         ¯\_(ツ)_/¯
-        */
-
     }
 }
