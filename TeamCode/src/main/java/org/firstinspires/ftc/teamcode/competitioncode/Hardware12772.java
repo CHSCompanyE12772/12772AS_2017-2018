@@ -58,9 +58,6 @@ class Hardware12772{
     double driveSpeedMed = 0.5;
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
-    //the multi-dimentsional array below should replace gamepad1.PressedArray.
-    boolean[][] debouncePressedArray = new boolean[3][15]; //3 gamepads, 15 debounce buttons each.
-    //See 'legends for PressedArrays.txt' for which index means what.
 
     String ourVuforiaLicenseKey = "AWQk7mb/////AAAAGZzcT2AtsU7fnFlKo1X5AwwP5Bwu/DPZnIJ6ObPBUoJBAbsK6ZofzC7u7b/ZzaqwD4GdQcla6Cmxqw+2a3u/X2kjfNh/jYnLnHX+vw8GEhgLmgUFPmG6ehcupHxQO+IImFWFdBXYfUIaIKcO0OxnZlg3A8OWthBsSVD3BpuIhkuYaY/pOKEZUalyf0NQepGxMa/n5iL4SYDVNQjmaKwj0lZZU2SNhr12qQWIBg3fF9b3HC33/OFGlQhjFrxYCAXzAV3LnOjptc0D0Y5g9CtQABxB3aoI7ZRkCmHpXpYtcKmq1MGFmzxKNjIL90bJcRJnP7IWyxC2hFzpiLvojC2MbJjDVtVW7jbStZhArGewsAqd";
 
@@ -79,9 +76,6 @@ class Hardware12772{
     void init(HardwareMap ahwMap, boolean isAuto) {
         // Save reference to Hardware map
         hwMap = ahwMap;
-
-        for(int i = debouncePressedArray.length - 1; i>=0; i--) //initializes all gamepad debouncers
-            Arrays.fill(debouncePressedArray[i], false);
 
         /*
            Initialize the hardware variables. Note that the strings used here as parameters
@@ -170,7 +164,8 @@ class Hardware12772{
 
     //set drivePower given single-joystick input
     void povDrive(double x, double y, double speed){
-        //I think this should use Range.scale(y -+ x, -1.0, 1.0, -speed, speed); instead.
+        //TODO: test if using leftDrivePower = Range.scale(y - x, -1.0, 1.0, -speed, speed); and
+        //TODO: rightDrivePower = Range.scale(y + x, -1.0, 1.0, -speed, speed); works better.
         leftDrivePower = Range.clip(y - x, -speed, speed);
         rightDrivePower = Range.clip(y + x, -speed, speed);
     }
@@ -266,14 +261,5 @@ class Hardware12772{
 
         leftTopClaw.setPosition(leftTopClawOffset - toPosition);
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);
-    }
-
-    boolean debounce(boolean input, int gamepadNumber, int buttonIndex){
-        if (input != debouncePressedArray[gamepadNumber][buttonIndex]){
-            debouncePressedArray[gamepadNumber][buttonIndex] = input;
-            return input;
-        }
-        else
-            return false;
     }
 }

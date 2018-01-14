@@ -14,11 +14,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 public class SWDefaultDrive extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
-    General12772 g = new General12772(); //Use the shared general robot code.
+    General12772 g = new General12772(r); //Use the shared general robot code.
 
     @Override //Does anyone know what this is or what it does?
     public void runOpMode() {
         r.init(hardwareMap, false); //initialization for non-autonomous code. NO SHAKES ALLOWED >:(
+        g.init();
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
@@ -36,14 +37,14 @@ public class SWDefaultDrive extends LinearOpMode {
 
             //Control drive motors
             r.setDriveSpeedWithButtons(
-                    r.debounce(gamepad1.a,1,8),
-                    r.debounce(gamepad1.b,1,7));
+                    g.debounce(gamepad1.a,1,8),
+                    g.debounce(gamepad1.b,1,7));
             r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, r.driveSpeedStick);
 
             //Control Arm power and/or position
             r.setArmPositionJoystick(
                     gamepad1.right_stick_y,
-                    r.debounce(gamepad1.right_stick_button,1,11),
+                    g.debounce(gamepad1.right_stick_button,1,11),
                     gamepad1.start);
 
             //Control claw position
@@ -72,8 +73,6 @@ public class SWDefaultDrive extends LinearOpMode {
                     "left: " + r.leftClawOffset +
                            " right: " + r.rightClawOffset
             );
-            telemetry.addData("Pad1 start&back", gamepad1.start+" "+ gamepad1.back);
-            telemetry.addData("Pad2 start&back", gamepad2.start+" "+ gamepad2.back);
             telemetry.update();
         }
     }
