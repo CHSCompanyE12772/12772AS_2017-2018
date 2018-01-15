@@ -60,8 +60,6 @@ class Hardware12772{
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
 
-    String ourVuforiaLicenseKey = "AWQk7mb/////AAAAGZzcT2AtsU7fnFlKo1X5AwwP5Bwu/DPZnIJ6ObPBUoJBAbsK6ZofzC7u7b/ZzaqwD4GdQcla6Cmxqw+2a3u/X2kjfNh/jYnLnHX+vw8GEhgLmgUFPmG6ehcupHxQO+IImFWFdBXYfUIaIKcO0OxnZlg3A8OWthBsSVD3BpuIhkuYaY/pOKEZUalyf0NQepGxMa/n5iL4SYDVNQjmaKwj0lZZU2SNhr12qQWIBg3fF9b3HC33/OFGlQhjFrxYCAXzAV3LnOjptc0D0Y5g9CtQABxB3aoI7ZRkCmHpXpYtcKmq1MGFmzxKNjIL90bJcRJnP7IWyxC2hFzpiLvojC2MbJjDVtVW7jbStZhArGewsAqd";
-
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -167,6 +165,7 @@ class Hardware12772{
     void povDrive(double x, double y, double speed){
         //TODO: test if using leftDrivePower = Range.scale(y - x, -1.0, 1.0, -speed, speed); and
         //TODO: rightDrivePower = Range.scale(y + x, -1.0, 1.0, -speed, speed); works better.
+        //Don't think it'll make a difference because x and y already range from -1 to 1 anyway
         leftDrivePower = Range.clip(y - x, -speed, speed);
         rightDrivePower = Range.clip(y + x, -speed, speed);
     }

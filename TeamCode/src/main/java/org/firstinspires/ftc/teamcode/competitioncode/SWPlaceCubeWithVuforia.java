@@ -46,7 +46,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 @Autonomous(name = "Vu Fu Man", group = "TeamCode")   //sorry I just had to change the name lol
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-public class SWPlaceCubeWithVUFU extends LinearOpMode {
+public class SWPlaceCubeWithVuforia extends LinearOpMode {
 
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
@@ -59,18 +59,20 @@ public class SWPlaceCubeWithVUFU extends LinearOpMode {
     @Override
     public void runOpMode() {
         r.init(hardwareMap, true);  //Initialization with safe space for snowflake-shakes.
+        r.initClawServosPOS(r.clawsPOS);
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
         r.leftBottomClawOffset = 0.1;
         r.rightBottomClawOffset = 1.0;
+
         /* //Use these two lines of code below for displaying camera, OR use parameterless line below that for non-displayed camera.
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = r.ourVuforiaLicenseKey;
+        parameters.vuforiaLicenseKey = g.ourVuforiaLicenseKey;
 
         /** Indicate which camera on the RC to use. Here we chose the back (HiRes) camera (for
          * greater range), but the front camera might be more convenient. */
