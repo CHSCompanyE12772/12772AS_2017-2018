@@ -51,26 +51,24 @@ public class SWPlaceCubeWithVuforia extends LinearOpMode {
     Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
-    /** {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine. */
-    VuforiaLocalizer vuforia;
-
+    VuforiaLocalizer vuforia;   //Variable is a reference to the instance of the Vuforia localization/tracking engine
 
     @Override
     public void runOpMode() {
         r.init(hardwareMap, true);  //Initialization with safe space for snowflake-shakes.
-        r.initClawServosPOS(r.clawsPOS);
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
         r.leftBottomClawOffset = 0.1;
         r.rightBottomClawOffset = 1.0;
 
-        /* //Use these two lines of code below for displaying camera, OR use parameterless line below that for non-displayed camera.
+        //Use these two lines of code below for displaying camera, OR use parameterless line below that for non-displayed camera.
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        */
+
+        /*
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+        */
 
         parameters.vuforiaLicenseKey = g.ourVuforiaLicenseKey;
 
@@ -93,7 +91,7 @@ public class SWPlaceCubeWithVuforia extends LinearOpMode {
         r.runtime.reset();
         r.update();
 
-        relicTrackables.activate();
+        relicTrackables.activate();   //Begin looking for and identifying set of VuMarks
 
         while (opModeIsActive()) {
 
