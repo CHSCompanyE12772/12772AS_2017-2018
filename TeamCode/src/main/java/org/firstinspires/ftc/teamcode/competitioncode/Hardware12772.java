@@ -13,6 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 class Hardware12772{
+    General12772 g = new General12772();
+
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftDrive = null;
