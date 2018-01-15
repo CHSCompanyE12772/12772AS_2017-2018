@@ -20,11 +20,12 @@ class General12772 {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    General12772(Hardware12772 hardware){
+    General12772(/*Hardware12772 hardware*/){
         //TODO: Get this constructor to pass reference of hardware instance to rest of the general
         //TODO: instance. Whenever I call 'r' outside of this constructor, I get an error.
-        Hardware12772 r = hardware;
+        //Hardware12772 r = hardware;
     }
+    // Opened up Android Studio and took a look at SWForward4Feet and computer started throwing tantrums, commented out lines above as a temp fix... - CB
     void init() {
         for(int i = debouncePressedArray.length - 1; i>=0; i--) //initializes all gamepad debouncers
             Arrays.fill(debouncePressedArray[i], false);

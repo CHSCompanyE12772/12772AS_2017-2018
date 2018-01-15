@@ -11,19 +11,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import java.util.Arrays;
 
 class Hardware12772{
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
     DcMotor leftDrive = null;
     DcMotor rightDrive = null;
-    Servo leftClaw = null;
-    Servo rightClaw = null;
     DcMotor mainArm = null;
 
     Servo leftTopClaw = null;
     Servo rightTopClaw = null;
+    Servo leftBottomClaw = null;
+    Servo rightBottomClaw = null;
 
     //Motor power variables.
     double leftDrivePower;
@@ -36,8 +35,8 @@ class Hardware12772{
     double clawsPOS = 0;
 
     //  CLAW OFFSET. used to adjust to real values
-    double leftClawOffset = 0.0; //Default ideal values, modified later
-    double rightClawOffset = 1.0;
+    double leftBottomClawOffset = 0.0; //Default ideal values, modified later
+    double rightBottomClawOffset = 1.0;
     double leftTopClawOffset = 1.0;
     double rightTopClawOffset = 0.0;
     //do we need an offset for each claw or can we just use one offset for both?
@@ -84,8 +83,8 @@ class Hardware12772{
         */
         leftDrive = hwMap.get(DcMotor.class, "leftDrive");   //LEFT DRIVE WHEEL MOTOR
         rightDrive = hwMap.get(DcMotor.class, "rightDrive");  //RIGHT DRIVE WHEEL MOTOR
-        leftClaw = hwMap.get(Servo.class, "leftClaw");      //LEFT CLAW SERVO
-        rightClaw = hwMap.get(Servo.class, "rightClaw");      //RIGHT CLAW SERVO
+        leftBottomClaw = hwMap.get(Servo.class, "leftBottomClaw");      //LEFT CLAW SERVO
+        rightBottomClaw = hwMap.get(Servo.class, "rightBottomClaw");      //RIGHT CLAW SERVO
         mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
         leftTopClaw = hwMap.get(Servo.class, "leftTopClaw");      //UPPER LEFT CLAW SERVO
         rightTopClaw = hwMap.get(Servo.class, "rightTopClaw");      //UPPER RIGHT CLAW SERVO
@@ -246,18 +245,18 @@ class Hardware12772{
     //Maybe, but we don't know where zero is given each servo's offset.
     //Perhaps moving the claw during init would help?
     void initClawServosPOS(double startPosition){
-        leftClaw.setPosition(0.0);
-        rightClaw.setPosition(0.0);
-        leftClaw.setPosition(startPosition);
-        rightClaw.setPosition(startPosition);
-        leftClawOffset =   leftClaw.getPosition() - startPosition;
-        rightClawOffset =  rightClaw.getPosition() + startPosition;
+        leftBottomClaw.setPosition(0.0);
+        rightBottomClaw.setPosition(0.0);
+        leftBottomClaw.setPosition(startPosition);
+        rightBottomClaw.setPosition(startPosition);
+        leftBottomClawOffset =   leftBottomClaw.getPosition() - startPosition;
+        rightBottomClawOffset =  rightBottomClaw.getPosition() + startPosition;
     }
 
     //set positions of TopClaw servos
     void moveClaw(double toPosition){
-        leftClaw.setPosition(leftClawOffset + toPosition);
-        rightClaw.setPosition(rightClawOffset - toPosition);
+        leftBottomClaw.setPosition(leftBottomClawOffset + toPosition);
+        rightBottomClaw.setPosition(rightBottomClawOffset - toPosition);
 
         leftTopClaw.setPosition(leftTopClawOffset - toPosition);
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);

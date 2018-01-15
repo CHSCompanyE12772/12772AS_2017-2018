@@ -6,7 +6,6 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @TeleOp(name="Main Drive with Assists", group="TeamCode")
 //@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
@@ -23,8 +22,8 @@ public class SWDefaultDrive extends LinearOpMode {
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
-        r.leftClawOffset = 0.0;
-        r.rightClawOffset = 1.0;
+        r.leftBottomClawOffset = 0.0;
+        r.rightBottomClawOffset = 1.0;
         r.leftTopClawOffset = 1.0;
         r.rightTopClawOffset = 0.0;
 
@@ -66,12 +65,12 @@ public class SWDefaultDrive extends LinearOpMode {
             );
             telemetry.addData("Servo POS",
                     " clawPOS: " + r.clawsPOS +
-                           " leftClaw: " + r.leftClaw.getPosition() +
-                           " rightClaw: " + r.rightClaw.getPosition()
+                           " leftBottomClaw: " + r.leftBottomClaw.getPosition() +
+                           " rightBottomClaw: " + r.rightBottomClaw.getPosition()
             );
             telemetry.addData("ClawOffsets",
-                    "left: " + r.leftClawOffset +
-                           " right: " + r.rightClawOffset
+                    "left: " + r.leftBottomClawOffset +
+                           " right: " + r.rightBottomClawOffset
             );
             telemetry.update();
         }

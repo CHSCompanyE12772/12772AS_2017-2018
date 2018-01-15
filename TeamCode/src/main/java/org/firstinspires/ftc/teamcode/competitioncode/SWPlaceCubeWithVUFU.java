@@ -31,15 +31,12 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
@@ -65,8 +62,8 @@ public class SWPlaceCubeWithVUFU extends LinearOpMode {
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
-        r.leftClawOffset = 0.1;
-        r.rightClawOffset = 1.0;
+        r.leftBottomClawOffset = 0.1;
+        r.rightBottomClawOffset = 1.0;
         /* //Use these two lines of code below for displaying camera, OR use parameterless line below that for non-displayed camera.
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
