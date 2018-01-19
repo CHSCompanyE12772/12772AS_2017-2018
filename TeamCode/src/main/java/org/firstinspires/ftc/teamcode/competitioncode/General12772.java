@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.Range;
 import java.util.Arrays;
 
 class General12772 {
-    Hardware12772 r = new Hardware12772();
 
     boolean[][] debouncePressedArray = new boolean[3][15]; //3 gamepads, 15 debounce buttons each.
     //See 'legends for PressedArrays.txt' for which index means what.
@@ -21,13 +20,10 @@ class General12772 {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    General12772(/*Hardware12772 hardware*/){
-        //TODO: Get this constructor to pass reference of hardware instance to rest of the general
-        //TODO: instance. Whenever I call 'r' outside of this constructor, I get an error.
-        // Opened up Android Studio and took a look at SWForward4Feet and computer started throwing tantrums
-        //Fixed by adding 'Hardware12772 r = new Hardware12772();' at the beginning of the class just like in all other files...
-        //Is everything inside this constructor safe to delete now?
-        //Hardware12772 r = hardware;
+    General12772(){
+        // Opened up Android Studio and took a look at SWForward4Feet and computer started throwing tantrums.
+        // Fixed those tantrums by removing the parameters for this constructor.
+        //We don't need a new Hardware12772 for non-OP mode classes.
     }
 
     void init() {

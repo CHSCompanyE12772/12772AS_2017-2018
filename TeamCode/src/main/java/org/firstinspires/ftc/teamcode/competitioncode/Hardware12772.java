@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Main Hardware class for robot.
  * Used for common functions between OP modes, can probably be used between similar robots.
  * TODO: We should eventually divide this class into a hardware class and a general robot class.
+ * *JOSE CRIES PROFUSELY*
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,7 +14,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 class Hardware12772{
-    General12772 g = new General12772();
 
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
@@ -50,6 +50,7 @@ class Hardware12772{
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
     double mainArmHoldingPower = 0.2;
+    //TODO: Find better up and down arm speeds
     double mainArmMaxUpPower = 1.0;
     double mainArmMaxDownPower = 0.5;
     boolean mainArmHolding = false;
@@ -83,8 +84,8 @@ class Hardware12772{
         */
         leftDrive = hwMap.get(DcMotor.class, "leftDrive");   //LEFT DRIVE WHEEL MOTOR
         rightDrive = hwMap.get(DcMotor.class, "rightDrive");  //RIGHT DRIVE WHEEL MOTOR
-        leftBottomClaw = hwMap.get(Servo.class, "leftBottomClaw");      //LEFT CLAW SERVO
-        rightBottomClaw = hwMap.get(Servo.class, "rightBottomClaw");      //RIGHT CLAW SERVO
+        leftBottomClaw = hwMap.get(Servo.class, "leftClaw");      //LEFT CLAW SERVO
+        rightBottomClaw = hwMap.get(Servo.class, "rightClaw");      //RIGHT CLAW SERVO
         mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
         leftTopClaw = hwMap.get(Servo.class, "leftTopClaw");      //UPPER LEFT CLAW SERVO
         rightTopClaw = hwMap.get(Servo.class, "rightTopClaw");      //UPPER RIGHT CLAW SERVO
