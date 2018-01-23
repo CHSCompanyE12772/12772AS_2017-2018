@@ -51,8 +51,8 @@ class Hardware12772{
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
     double mainArmHoldingPower = 0.2;
     //TODO: Find better up and down arm speeds
-    double mainArmMaxUpPower = 0.75;
-    double mainArmMaxDownPower = 0.4;
+    double mainArmMaxUpPower = 0.8;
+    double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
     boolean mainArmHolding = false;
 
     // DRIVE SPEED
