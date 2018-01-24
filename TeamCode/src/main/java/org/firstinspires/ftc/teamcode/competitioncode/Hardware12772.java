@@ -3,8 +3,12 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 /**
  * Main Hardware class for robot.
  * Used for common functions between OP modes, can probably be used between similar robots.
- * TODO: We should eventually divide this class into a hardware class and a general robot class.
- * *JOSE CRIES PROFUSELY*
+ * TODO: Create option to limit the height mainArm applies holdingPower at.
+ *  This means holdingPower will be turned if the arm is above a specified height of 4 cubes,
+ *  but resume when it drops to appropriate height.
+ * TODO: Create new hardware class for new 4-wheeled robot.
+ *  Robot will have drive wheel on each side, and can move in x and z directions as well as rotate.
+ *  It hasn't been built yet, but eventually will.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
