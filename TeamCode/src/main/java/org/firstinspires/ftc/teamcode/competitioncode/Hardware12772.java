@@ -6,9 +6,6 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * TODO: Create option to limit the height mainArm applies holdingPower at.
  *  This means holdingPower will be turned if the arm is above a specified height of 4 cubes,
  *  but resume when it drops to appropriate height.
- * TODO: Create new hardware class for new 4-wheeled robot.
- *  Robot will have drive wheel on each side, and can move in x and z directions as well as rotate.
- *  It hasn't been built yet, but eventually will.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -171,8 +168,10 @@ class Hardware12772{
         //TODO: test if using leftDrivePower = Range.scale(y - x, -1.0, 1.0, -speed, speed); and
         //TODO: rightDrivePower = Range.scale(y + x, -1.0, 1.0, -speed, speed); works better.
         //Don't think it'll make a difference because x and y already range from -1 to 1 anyway
-        leftDrivePower = Range.clip(y - x, -speed, speed);
-        rightDrivePower = Range.clip(y + x, -speed, speed);
+        //leftDrivePower = Range.clip(y - x, -speed, speed);
+        //rightDrivePower = Range.clip(y + x, -speed, speed);
+        leftDrivePower = Range.scale(y - x, -1.0, 1.0, -speed, speed);
+        rightDrivePower = Range.scale(y + x, -1.0, 1.0, -speed, speed);
     }
 
     void setDriveSpeedWithButtons(boolean increase, boolean decrease){
