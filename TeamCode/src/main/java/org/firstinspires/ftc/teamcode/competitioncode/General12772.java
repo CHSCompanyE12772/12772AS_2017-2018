@@ -39,4 +39,15 @@ class General12772 {
         else
             return false;
     }
+    double[] rotateCoords(int xin, int yin){
+        //TODO: Test if this works.
+        //TODO: Use point object instead of array (maybe better?).
+        double theta = Math.atan2(-yin,xin);
+        theta += Math.PI/4;
+        double hyp = Math.hypot(xin, yin);
+        double[] newCoords = {
+                hyp*Math.cos(theta),
+                hyp*Math.sin(theta),};
+        return newCoords;
+    }
 }
