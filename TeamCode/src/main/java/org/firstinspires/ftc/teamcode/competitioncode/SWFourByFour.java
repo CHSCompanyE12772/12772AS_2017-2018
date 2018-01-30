@@ -31,7 +31,8 @@ public class SWFourByFour extends LinearOpMode {
             r.setDriveSpeedWithButtons(
                     g.debounce(gamepad1.a,1,8),
                     g.debounce(gamepad1.b,1,7));
-            r.povDrive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
+            double[] motionCoorrds = g.rotateCoords(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            r.povDrive(motionCoorrds[0], motionCoorrds[1], gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
 
             //All runtime code in Hardware12772
             r.update();
