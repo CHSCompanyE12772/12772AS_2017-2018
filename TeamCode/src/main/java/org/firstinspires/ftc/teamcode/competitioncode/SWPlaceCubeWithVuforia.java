@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class SWPlaceCubeWithVuforia extends LinearOpMode {
 
-    Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    HardwareRearWheelDrive r = new HardwareRearWheelDrive(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     VuforiaLocalizer vuforia;   //Variable is a reference to the instance of the Vuforia localization/tracking engine

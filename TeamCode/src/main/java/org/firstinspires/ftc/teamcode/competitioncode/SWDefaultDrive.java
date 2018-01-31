@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main TeleOP mode, currently (and probably forever will) uses Hardware12772.
+ * Main TeleOP mode, currently (and probably forever will) uses HardwareRearWheelDrive.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class SWDefaultDrive extends LinearOpMode {
 
-    Hardware12772 r = new Hardware12772(); //Use the shared hardware and function code.
+    HardwareRearWheelDrive r = new HardwareRearWheelDrive(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     @Override //Does anyone know what this is or what it does?
@@ -49,10 +49,10 @@ public class SWDefaultDrive extends LinearOpMode {
             //Control claw position
             r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper, gamepad1.left_stick_button);
 
-            //All runtime code in Hardware12772
+            //All runtime code in HardwareRearWheelDrive
             r.update();
 
-            //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware12772.java FOR SOME REASON!
+            //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO HardwareRearWheelDrive.java FOR SOME REASON!
             //I think its because telemetry is provided by TeleOP library, which only OP mode classes can use.
             telemetry.addData("Status",
                     "Run Time: " + r.runtime.toString()

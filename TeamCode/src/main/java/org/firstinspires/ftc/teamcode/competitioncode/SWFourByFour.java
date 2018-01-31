@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main TeleOP mode, currently (and probably forever will) uses Hardware12772.
+ * Main TeleOP mode, currently (and probably forever will) uses HardwareRearWheelDrive.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class SWFourByFour extends LinearOpMode {
 
-    Hardware4x4 r = new Hardware4x4(); //Use the shared hardware and function code.
+    HardwareOmniDirection r = new HardwareOmniDirection(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     @Override //Does anyone know what this is or what it does?
@@ -31,13 +31,13 @@ public class SWFourByFour extends LinearOpMode {
             r.setDriveSpeedWithButtons(
                     g.debounce(gamepad1.a,1,8),
                     g.debounce(gamepad1.b,1,7));
-            double[] motionCoorrds = g.rotateCoords(gamepad1.left_stick_x, gamepad1.left_stick_y);
-            r.povDrive(motionCoorrds[0], motionCoorrds[1], gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
+            double[] motionCoords = g.rotateCoords(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            r.povDrive(motionCoords[0], motionCoords[1], gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
 
-            //All runtime code in Hardware12772
+            //All runtime code in HardwareRearWheelDrive
             r.update();
 
-            //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware12772.java FOR SOME REASON!
+            //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO HardwareRearWheelDrive.java FOR SOME REASON!
             //I think its because telemetry is provided by TeleOP library, which only OP mode classes can use.
             telemetry.addData("Status",
                     "Run Time: " + r.runtime.toString()

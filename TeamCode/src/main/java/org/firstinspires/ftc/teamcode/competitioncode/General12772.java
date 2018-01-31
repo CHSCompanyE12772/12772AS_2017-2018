@@ -23,7 +23,7 @@ class General12772 {
     General12772() {
         // Opened up Android Studio and took a look at SWForward4Feet and computer started throwing tantrums.
         // Fixed those tantrums by removing the parameters for this constructor.
-        //We don't need a new Hardware12772 for non-OP mode classes.
+        //We don't need a new HardwareRearWheelDrive for non-OP mode classes.
     }
 
     void init() {
