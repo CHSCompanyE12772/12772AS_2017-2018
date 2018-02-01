@@ -45,7 +45,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * Autonomous OP mode to identify and act using vuforia mark identification.
  */
 
-@Autonomous(name = "Vu Fu Man", group = "TeamCode")   //sorry I just had to change the name lol
+@Autonomous(name = "AutoOD Vuforia Body", group = "OD")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforia extends LinearOpMode {
 

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
-@TeleOp(name="XXXX", group="TeamCode")
+@TeleOp(name="DriveOD", group="OD")
 //@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 
 public class DriveOD extends LinearOpMode {

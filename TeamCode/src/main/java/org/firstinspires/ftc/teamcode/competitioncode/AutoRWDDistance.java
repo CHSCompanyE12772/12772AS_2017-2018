@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here
  * Test autonomous mode.
  */
 
-@Autonomous(name = "Move 4 Feet test", group = "TeamCode")
+@Autonomous(name = "AutoRWD Move (experimental)", group = "OD")
 @Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoRWDDistance extends LinearOpMode {
 

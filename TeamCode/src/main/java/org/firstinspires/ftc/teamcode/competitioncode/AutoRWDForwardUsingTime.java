@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here
  * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
  */
 
-@Autonomous(name = "Move 1 second and pray for 2", group = "TeamCode")
+@Autonomous(name = "AutoRWD Move using Time", group = "RWD")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoRWDForwardUsingTime extends LinearOpMode {
 

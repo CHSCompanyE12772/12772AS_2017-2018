@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
  */
 
-@Autonomous(name = "Move Distance 4x4", group = "TeamCode")
+@Autonomous(name = "AutoOD forward using TIME", group = "OD")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODForwardUsingTime extends LinearOpMode {
 
