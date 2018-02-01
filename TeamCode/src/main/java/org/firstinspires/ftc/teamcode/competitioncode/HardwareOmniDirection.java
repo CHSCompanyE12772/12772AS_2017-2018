@@ -16,17 +16,17 @@ class HardwareOmniDirection {
 
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
-    DcMotor leftDrive = null;
-    DcMotor rightDrive = null;
-    DcMotor frontDrive = null;
-    DcMotor backDrive = null;
+    DcMotor leftRearDrive = null;
+    DcMotor rightFrontDrive = null;
+    DcMotor leftFrontDrive = null;
+    DcMotor rightBackDrive = null;
 
 
     //Motor power variables.
-    double leftDrivePower;
-    double rightDrivePower;
-    double frontDrivePower;
-    double backDrivePower;
+    double leftRearDrivePower;
+    double rightFrontDrivePower;
+    double leftFrontDrivePower;
+    double rightBackDrivePower;
 
     // DRIVE SPEED
     double driveSpeedMin = 0.25;
@@ -55,95 +55,95 @@ class HardwareOmniDirection {
            to 'get' must correspond to the names assigned during the robot configuration
            step (using the FTC Robot Controller app on the phone).
         */
-        leftDrive = hwMap.get(DcMotor.class, "leftDrive");   //LEFT DRIVE WHEEL MOTOR
-        rightDrive = hwMap.get(DcMotor.class, "rightDrive");  //RIGHT DRIVE WHEEL MOTOR
-        frontDrive = hwMap.get(DcMotor.class, "frontDrive");
-        backDrive = hwMap.get(DcMotor.class, "backDrive");
+        leftRearDrive = hwMap.get(DcMotor.class, "leftRearDrive");   //LEFT DRIVE WHEEL MOTOR
+        rightFrontDrive = hwMap.get(DcMotor.class, "rightFrontDrive");  //RIGHT DRIVE WHEEL MOTOR
+        leftFrontDrive = hwMap.get(DcMotor.class, "leftFrontDrive");
+        rightBackDrive = hwMap.get(DcMotor.class, "rightBackDrive");
 
         // Since motors face opposite on each side, one drive motor needs to be reversed.
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontDrive.setDirection(DcMotor.Direction.FORWARD);
-        backDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power, juuuust in case
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        frontDrive.setPower(0);
-        backDrive.setPower(0);
+        leftRearDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
 
         /*
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
         */
         if (isAuto) {
-            leftDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            frontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            backDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            leftRearDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            rightFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            leftFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
+            rightBackDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-            leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         else {
-            leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            frontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            backDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 
     //Main function usually called repeatedly after 'Start'
     void update(){
         // Send calculated power to DRIVE MOTORS
-        leftDrive.setPower(leftDrivePower);
-        rightDrive.setPower(rightDrivePower);
-        frontDrive.setPower(frontDrivePower);
-        backDrive.setPower(backDrivePower);
+        leftRearDrive.setPower(leftRearDrivePower);
+        rightFrontDrive.setPower(rightFrontDrivePower);
+        leftFrontDrive.setPower(leftFrontDrivePower);
+        rightBackDrive.setPower(rightBackDrivePower);
     }
 
     //used in Autonomous to set speed but retain direction.
     void setDriveSpeed(double speed){
         //Left
-        if (leftDrivePower != 0.0) //avoids divide by zero
-            leftDrivePower *= speed/Math.abs(leftDrivePower); //speed times sign of drivepower
+        if (leftRearDrivePower != 0.0) //avoids divide by zero
+            leftRearDrivePower *= speed/Math.abs(leftRearDrivePower); //speed times sign of drivepower
         else
-            leftDrivePower = speed; //if zero, set to zero.
+            leftRearDrivePower = speed; //if zero, set to zero.
         //Right
-        if (rightDrivePower != 0.0)
-            rightDrivePower *= speed/Math.abs(rightDrivePower);
+        if (rightFrontDrivePower != 0.0)
+            rightFrontDrivePower *= speed/Math.abs(rightFrontDrivePower);
         else
-            rightDrivePower = speed;
+            rightFrontDrivePower = speed;
         //Front
-        if (frontDrivePower != 0.0) //avoids divide by zero
-            frontDrivePower *= speed/Math.abs(frontDrivePower); //speed times sign of drivepower
+        if (leftFrontDrivePower != 0.0) //avoids divide by zero
+            leftFrontDrivePower *= speed/Math.abs(leftFrontDrivePower); //speed times sign of drivepower
         else
-            frontDrivePower = speed; //if zero, set to zero.
+            leftFrontDrivePower = speed; //if zero, set to zero.
         //Back
-        if (backDrivePower != 0.0)
-            backDrivePower *= speed/Math.abs(backDrivePower);
+        if (rightBackDrivePower != 0.0)
+            rightBackDrivePower *= speed/Math.abs(rightBackDrivePower);
         else
-            backDrivePower = speed;
+            rightBackDrivePower = speed;
     }
 
     //set drivePower given single-joystick input
     void povDrive(double x, double y, double cw, double ccw, double speed){
         if (cw+ccw > 0)
         {
-            leftDrivePower = Range.scale(cw - ccw, -1.0, 1.0, -speed, speed);
-            rightDrivePower = -leftDrivePower;
-            frontDrivePower = leftDrivePower;
-            backDrivePower = -leftDrivePower;
+            leftRearDrivePower = Range.scale(cw - ccw, -1.0, 1.0, -speed, speed);
+            rightFrontDrivePower = -leftRearDrivePower;
+            leftFrontDrivePower = leftRearDrivePower;
+            rightBackDrivePower = -leftRearDrivePower;
         }
         else
         {
-            leftDrivePower = Range.scale(y, -1.0, 1.0, -speed, speed);
-            rightDrivePower = leftDrivePower;
-            frontDrivePower = Range.scale(x, -1.0, 1.0, -speed, speed);
-            backDrivePower = frontDrivePower;
+            leftRearDrivePower = Range.scale(y, -1.0, 1.0, -speed, speed);
+            rightFrontDrivePower = leftRearDrivePower;
+            leftFrontDrivePower = Range.scale(x, -1.0, 1.0, -speed, speed);
+            rightBackDrivePower = leftFrontDrivePower;
         }
     }
 

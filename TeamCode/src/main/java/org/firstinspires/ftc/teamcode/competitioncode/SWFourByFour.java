@@ -43,21 +43,7 @@ public class SWFourByFour extends LinearOpMode {
                     "Run Time: " + r.runtime.toString()
             );
             telemetry.addData("Drive Speed", r.driveSpeedStick);
-/*            telemetry.addData("Motor Power",
-                    " leftDrive: " + r.leftDrive.getPower() +
-                           " rightDrive: " + r.rightDrive.getPower() +
-                           " Arm: " + r.mainArm.getPower()
-            );
-            telemetry.addData("Servo POS",
-                    " clawPOS: " + r.clawsPOS +
-                           " leftBottomClaw: " + r.leftBottomClaw.getPosition() +
-                           " rightBottomClaw: " + r.rightBottomClaw.getPosition()
-            );
-            telemetry.addData("ClawOffsets",
-                    "left: " + r.leftBottomClawOffset +
-                           " right: " + r.rightBottomClawOffset
-            );
-*/            telemetry.update();
+            telemetry.update();
         }
     }
 }

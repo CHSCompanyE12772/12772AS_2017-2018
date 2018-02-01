@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class SWPlaceCubeWithVuforia extends LinearOpMode {
 
-    HardwareRearWheelDrive r = new HardwareRearWheelDrive(); //Use the shared hardware and function code.
+    HardwareOmniDirection r = new HardwareOmniDirection();
     General12772 g = new General12772(); //Use the shared general robot code.
 
     VuforiaLocalizer vuforia;   //Variable is a reference to the instance of the Vuforia localization/tracking engine
@@ -56,6 +56,7 @@ public class SWPlaceCubeWithVuforia extends LinearOpMode {
     @Override
     public void runOpMode() {
         r.init(hardwareMap, true);  //Initialization with safe space for snowflake-shakes.
+        //FIXME: these errors will(should) go away when you add these functions to HardwareOmniDirection.
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
