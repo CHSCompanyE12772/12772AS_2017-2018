@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main general robot class.
- * Used for....?
+ * Class used to store useful, non-hardware specific methods and fields.
  */
 
 import com.qualcomm.robotcore.util.ElapsedTime;

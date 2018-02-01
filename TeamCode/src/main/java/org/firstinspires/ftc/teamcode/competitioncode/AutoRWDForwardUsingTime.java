@@ -5,8 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
 /**
- * Test autonomous mode, last resort.
- * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
+ * Used this code when crisis hit and miracles fail, works by being painfully simple.
  */
 
 @Autonomous(name = "AutoRWD Move using Time", group = "RWD")

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
 /**
- * Test autonomous mode.
+ * Test autonomous mode, probably will be scrapped soon.
  */
 
 @Autonomous(name = "AutoRWD Move (experimental)", group = "OD")

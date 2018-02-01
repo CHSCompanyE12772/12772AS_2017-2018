@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main TeleOP mode, currently (and probably forever will) uses Hardware_RWD_RearWheelDrive.
+ * TeleOP that uses Hardware_OD_OmniDirection.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -35,11 +35,17 @@ public class DriveOD extends LinearOpMode {
             double[] motionCoords = g.rotateCoords(gamepad1.left_stick_x, gamepad1.left_stick_y);
             r.povDrive(motionCoords[0], motionCoords[1], gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
 
-            //All runtime code in Hardware_RWD_RearWheelDrive
+            //Control Arm power and/or position
+            r.setArmPositionJoystick(
+                    gamepad1.right_stick_y,
+                    g.debounce(gamepad1.right_stick_button,1,11),
+                    gamepad1.start);
+
+            //Control claw position
+            r.setServoPositionTwoButton(gamepad1.left_bumper, gamepad1.right_bumper, gamepad1.left_stick_button);
+
             r.update();
 
-            //BEGIN TELEMETRY SECTION. TELEMETRY WILL NOT WORK IF REFERENCED TO Hardware_RWD_RearWheelDrive.java FOR SOME REASON!
-            //I think its because telemetry is provided by TeleOP library, which only OP mode classes can use.
             telemetry.addData("Status",
                     "Run Time: " + r.runtime.toString()
             );

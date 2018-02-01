@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 /**
  * Test autonomous mode, last resort.
  * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
+ * Those who fail to learn from history are doomed to repeat it...
  */
 
 @Autonomous(name = "AutoOD forward using TIME", group = "OD")

@@ -42,7 +42,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 
 /**
- * Autonomous OP mode to identify and act using vuforia mark identification.
+ * Autonomous OP mode to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
 @Autonomous(name = "AutoOD Vuforia Body", group = "OD")

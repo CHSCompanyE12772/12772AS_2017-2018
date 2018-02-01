@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main Hardware class for robot.
+ * Hardware class for the old Rear Wheel Drive and Claw Robot.
  * Used for common functions between OP modes, can probably be used between similar robots.
  * TODO: Create option to limit the height mainArm applies holdingPower at.
  *  This means holdingPower will be turned if the arm is above a specified height of 4 cubes,

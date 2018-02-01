@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Main TeleOP mode, currently (and probably forever will) uses Hardware_RWD_RearWheelDrive.
+ * TeleOp that uses Hardware_RWD_RearWheelDrive.
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

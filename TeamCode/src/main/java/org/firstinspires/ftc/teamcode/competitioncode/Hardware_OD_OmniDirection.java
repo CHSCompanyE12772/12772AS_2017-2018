@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Hardware class for 4-wheeled robot.
+ * Hardware class for 4-Directional robot with wheels at 45 degree angles (and claw arm).
  * Robot will have drive wheel on each side, and can move in x and z directions as well as rotate.
- * It hasn't been built yet, but eventually will.
+ * Currently Hardware class being used by robot.
+ * TODO: Create option to limit the height mainArm applies holdingPower at.
+ * TODO: Shared code between this class and other claw-robot hardware class.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -91,18 +93,21 @@ class Hardware_OD_OmniDirection {
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        // This arm is backwards too, probably.
+        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power, juuuust in case
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
+        mainArm.setPower(0);
 
         /*
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
         */
-        if (isAuto) {
+        if (isAuto) { //TODO: we could probably make this if-else less repetitive with a polymorphic for loop and array
             leftBackDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
             rightFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
             leftFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
@@ -119,6 +124,10 @@ class Hardware_OD_OmniDirection {
             leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
+        mainArm.setMode(DcMotor.RunMode.RESET_ENCODERS); //resting position set to zero
+        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Default & shakeless. OP modes can change this if needed.
+        mainArmPower = mainArmPowerMax;
+        mainArm.setTargetPosition(0);
     }
 
     //Main function usually called repeatedly after 'Start'
@@ -128,10 +137,14 @@ class Hardware_OD_OmniDirection {
         rightFrontDrive.setPower(rightFrontDrivePower);
         leftFrontDrive.setPower(leftFrontDrivePower);
         rightBackDrive.setPower(rightBackDrivePower);
+        moveClaw(clawsPOS);
+        if (mainArmPositionX != -1)
+            mainArm.setTargetPosition(mainArmPositionX);
+        mainArm.setPower(mainArmPower);
     }
 
     //used in Autonomous to set speed but retain direction.
-    void setDriveSpeed(double speed){
+    void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with objects(?)
         //Left
         if (leftBackDrivePower != 0.0) //avoids divide by zero
             leftBackDrivePower *= speed/Math.abs(leftBackDrivePower); //speed times sign of drivepower
@@ -177,14 +190,74 @@ class Hardware_OD_OmniDirection {
         if (increase) {
             if (driveSpeedStick == driveSpeedMin) driveSpeedStick = driveSpeedMed;
             else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMax;
-            else if (driveSpeedStick == driveSpeedMax) ;//TODO: add sound cue for this condition.
+            else if (driveSpeedStick == driveSpeedMax) ;
             else driveSpeedStick = driveSpeedMed;
         }
         if (decrease) {
-            if (driveSpeedStick == driveSpeedMin) ;//TODO: add sound cue for this condition.
+            if (driveSpeedStick == driveSpeedMin) ;
             else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMin;
             else if (driveSpeedStick == driveSpeedMax) driveSpeedStick = driveSpeedMed;
             else driveSpeedStick = driveSpeedMed;
         }
+    }
+    void setArmPositionJoystick(double y, boolean toggleHolding, boolean movingToResting){  //TODO: Ask Sergio if we need the start button
+        if (movingToResting) { //when moveToResting button is held, arm motor uses encoders to move self.
+            mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            mainArmPower = -0.1;
+            mainArm.setTargetPosition(0);
+        }
+        else { //otherwise, joystick is used to control arm motor power.
+            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if (toggleHolding) //used debounced button to toggle if holding.
+                mainArmHolding = !mainArmHolding;
+
+            if (y < 0) { //Moving arm down
+                mainArmPower = y * mainArmMaxDownPower;
+                if (mainArmHolding)
+                    //when moving the arm down, subtract it from  holding power.
+                    mainArmPower += mainArmHoldingPower;
+            }
+            else { //Moving arm up OR not moving arm
+                mainArmPower = y * mainArmMaxUpPower;
+                if (mainArmHolding && mainArmHoldingPower > mainArmPower)
+                    //when moving arm up, ignore input unless greater than holding power.
+                    mainArmPower = mainArmHoldingPower;
+            }
+
+        }
+    }
+
+    void setServoPositionTwoButton(boolean increase, boolean decrease, boolean reset){
+        double incr = 0.025; //increment per update. control how fast clawPOS changes.
+        if (increase)
+            clawsPOS += incr;
+        if (decrease)
+            clawsPOS -= incr;
+        if (reset)
+            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.1;
+        // = middle position/2 * 1.1
+        clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
+    }
+
+    //Bugged, .getPosition is always returning zero, regardless of actual position. Why??
+    //Maybe we could set the zero position on servos physically before starting OpMode? idek...
+    //Maybe, but we don't know where zero is given each servo's offset.
+    //Perhaps moving the claw during init would help?
+    void initClawServosPOS(double startPosition){
+        leftBottomClaw.setPosition(0.0);
+        rightBottomClaw.setPosition(0.0);
+        leftBottomClaw.setPosition(startPosition);
+        rightBottomClaw.setPosition(startPosition);
+        leftBottomClawOffset =   leftBottomClaw.getPosition() - startPosition;
+        rightBottomClawOffset =  rightBottomClaw.getPosition() + startPosition;
+    }
+
+    //set positions of TopClaw servos
+    void moveClaw(double toPosition){
+        leftBottomClaw.setPosition(leftBottomClawOffset + toPosition);
+        rightBottomClaw.setPosition(rightBottomClawOffset - toPosition);
+
+        leftTopClaw.setPosition(leftTopClawOffset - toPosition);
+        rightTopClaw.setPosition(rightTopClawOffset + toPosition);
     }
 }
