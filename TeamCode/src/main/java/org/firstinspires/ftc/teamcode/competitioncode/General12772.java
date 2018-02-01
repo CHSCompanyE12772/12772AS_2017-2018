@@ -21,9 +21,9 @@ class General12772 {
 
     /* Constructor */
     General12772() {
-        // Opened up Android Studio and took a look at SWForward4Feet and computer started throwing tantrums.
+        // Opened up Android Studio and took a look at AutoRWDDistance and computer started throwing tantrums.
         // Fixed those tantrums by removing the parameters for this constructor.
-        //We don't need a new HardwareRearWheelDrive for non-OP mode classes.
+        //We don't need a new Hardware_RWD_RearWheelDrive for non-OP mode classes.
     }
 
     void init() {

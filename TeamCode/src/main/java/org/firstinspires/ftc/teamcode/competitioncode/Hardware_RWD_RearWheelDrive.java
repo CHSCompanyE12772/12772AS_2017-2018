@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-class HardwareRearWheelDrive {
+class Hardware_RWD_RearWheelDrive {
 
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
@@ -27,10 +27,9 @@ class HardwareRearWheelDrive {
     Servo leftBottomClaw = null;
     Servo rightBottomClaw = null;
 
-    //Motor power variables.
+    //Drive wheel power variables.
     double leftDrivePower;
     double rightDrivePower;
-    double mainArmPower;
 
     // CLAW MAX AND MIN POS
     double clawPOSMin = 0.0;
@@ -46,12 +45,12 @@ class HardwareRearWheelDrive {
     //no, the offset is to correct the individual imperfect servos.
 
     // MAIN ARM POS AND POWER
+    double mainArmPower;
     double mainArmPowerMax = 0.75;
     int[] mainArmPositions = {10, 120, 260, 320};
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
     double mainArmHoldingPower = 0.2;
-    //TODO: Find better up and down arm speeds
     double mainArmMaxUpPower = 0.8;
     double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
     boolean mainArmHolding = false;
@@ -67,11 +66,11 @@ class HardwareRearWheelDrive {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    HardwareRearWheelDrive(){
+    Hardware_RWD_RearWheelDrive(){
     }
     //Any purpose for this?
     //It's a default constructor. The code will probably work without it, but we may as well leave
-    //it here just in case. Called when a zero-parameter HardwareRearWheelDrive instance is created.
+    //it here just in case. Called when a zero-parameter Hardware_RWD_RearWheelDrive instance is created.
 
     //Main function called for initialization stage
     void init(HardwareMap ahwMap, boolean isAuto) {

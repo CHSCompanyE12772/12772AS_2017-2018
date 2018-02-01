@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Unless a miracle happens, we will use this code. Assuming this OP Mode works.
  */
 
-@Autonomous(name = "Move 1 second and pray for 2", group = "TeamCode")
+@Autonomous(name = "Move Distance 4x4", group = "TeamCode")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-public class SWForwardOneSecond extends LinearOpMode {
+public class AutoODForwardUsingTime extends LinearOpMode {
 
-    HardwareRearWheelDrive r = new HardwareRearWheelDrive(); //Use the shared hardware and function code.
+    Hardware_OD_OmniDirection r = new Hardware_OD_OmniDirection(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     //Distance Variables

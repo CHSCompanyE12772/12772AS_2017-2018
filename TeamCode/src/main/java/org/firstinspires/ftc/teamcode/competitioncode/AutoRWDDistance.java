@@ -3,16 +3,17 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
 /**
  * Test autonomous mode.
  */
 
 @Autonomous(name = "Move 4 Feet test", group = "TeamCode")
-//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-public class SWForward4Feet extends LinearOpMode {
+@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+public class AutoRWDDistance extends LinearOpMode {
 
-    HardwareRearWheelDrive r = new HardwareRearWheelDrive(); //Use the shared hardware and function code.
+    Hardware_RWD_RearWheelDrive r = new Hardware_RWD_RearWheelDrive(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     //Distance Variables
