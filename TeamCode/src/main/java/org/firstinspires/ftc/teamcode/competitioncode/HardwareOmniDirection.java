@@ -20,7 +20,12 @@ class HardwareOmniDirection {
     DcMotor rightFrontDrive = null;
     DcMotor leftFrontDrive = null;
     DcMotor rightBackDrive = null;
+    DcMotor mainArm = null;
 
+    Servo leftTopClaw = null;
+    Servo rightTopClaw = null;
+    Servo leftBottomClaw = null;
+    Servo rightBottomClaw = null;
 
     //Motor power variables.
     double leftRearDrivePower;
@@ -59,6 +64,12 @@ class HardwareOmniDirection {
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFrontDrive");  //RIGHT DRIVE WHEEL MOTOR
         leftFrontDrive = hwMap.get(DcMotor.class, "leftFrontDrive");
         rightBackDrive = hwMap.get(DcMotor.class, "rightBackDrive");
+        mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
+
+        leftBottomClaw = hwMap.get(Servo.class, "leftBottomClaw");      //LEFT CLAW SERVO
+        rightBottomClaw = hwMap.get(Servo.class, "rightBottomClaw");      //RIGHT CLAW SERVO
+        leftTopClaw = hwMap.get(Servo.class, "leftTopClaw");      //UPPER LEFT CLAW SERVO
+        rightTopClaw = hwMap.get(Servo.class, "rightTopClaw");      //UPPER RIGHT CLAW SERVO
 
         // Since motors face opposite on each side, one drive motor needs to be reversed.
         // Reverse the motor that runs backwards when connected directly to the battery
