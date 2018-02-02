@@ -29,7 +29,8 @@ public class AutoODVuforia extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        r.init(hardwareMap, true);  //Initialization with safe space for snowflake-shakes.
+        r.mainArmPower = 0;
+        r.init(hardwareMap, false);  //Initialization with safe space for snowflake-shakes.
         r.clawsPOS = 0.5;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
@@ -67,7 +68,7 @@ public class AutoODVuforia extends LinearOpMode {
 
         relicTrackables.activate();   //Begin looking for and identifying set of VuMarks
 
-        while (opModeIsActive()) {
+        //while (opModeIsActive()) {
 
             /**
              * See if any of the instances of {@link relicTemplate} are currently visible.
@@ -101,6 +102,6 @@ public class AutoODVuforia extends LinearOpMode {
                 r.update();
                 sleep((long)motion[4]);
             }
-        }
+        //}
     }
 }
