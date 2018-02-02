@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-class Hardware_OD_OmniDirection {
+class Suicidal_Hardware_OD_OmniDirection {
 
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
@@ -22,8 +22,6 @@ class Hardware_OD_OmniDirection {
     DcMotor rightFrontDrive = null;
     DcMotor leftFrontDrive = null;
     DcMotor rightRearDrive = null;
-    DcMotor mainArm = null;
-
     Servo leftTopClaw = null;
     Servo rightTopClaw = null;
     Servo leftBottomClaw = null;
@@ -46,17 +44,6 @@ class Hardware_OD_OmniDirection {
     double leftTopClawOffset = 1.0;
     double rightTopClawOffset = 0.0;
 
-    // MAIN ARM POS AND POWER
-    double mainArmPower;
-    double mainArmPowerMax = 0.75;
-    int[] mainArmPositions = {10, 120, 260, 320};
-    int mainArmPosition = 0;
-    int mainArmPositionX = -1;  //Test variable, find ideal arm positions
-    double mainArmHoldingPower = 0.2;
-    double mainArmMaxUpPower = 0.8;
-    double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
-    boolean mainArmHolding = false;
-
     // DRIVE SPEED
     double driveSpeedMin = 0.25;
     double driveSpeedMed = 0.5;
@@ -68,7 +55,7 @@ class Hardware_OD_OmniDirection {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    Hardware_OD_OmniDirection(){
+    Suicidal_Hardware_OD_OmniDirection(){
     }
 
     //Main function called for initialization stage
@@ -80,7 +67,6 @@ class Hardware_OD_OmniDirection {
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFrontDrive");  //RIGHT DRIVE WHEEL MOTOR
         leftFrontDrive = hwMap.get(DcMotor.class, "leftFrontDrive");
         rightRearDrive = hwMap.get(DcMotor.class, "rightRearDrive");
-        mainArm = hwMap.get(DcMotor.class, "mainArm");      //ARM MOTOR
 
         leftBottomClaw = hwMap.get(Servo.class, "leftBottomClaw");      //LEFT CLAW SERVO
         rightBottomClaw = hwMap.get(Servo.class, "rightBottomClaw");      //RIGHT CLAW SERVO
@@ -94,15 +80,12 @@ class Hardware_OD_OmniDirection {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
         // This arm is backwards too, probably.
-        mainArm.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power, juuuust in case
         leftRearDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftFrontDrive.setPower(0);
         rightRearDrive.setPower(0);
-        mainArm.setPower(0);
-
         /*
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
@@ -124,10 +107,6 @@ class Hardware_OD_OmniDirection {
             leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rightRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
-        mainArm.setMode(DcMotor.RunMode.RESET_ENCODERS); //resting position set to zero
-        mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Default & shakeless. OP modes can change this if needed.
-        mainArmPower = mainArmPowerMax;
-        mainArm.setTargetPosition(0);
     }
 
     //Main function usually called repeatedly after 'Start'
@@ -138,9 +117,6 @@ class Hardware_OD_OmniDirection {
         leftFrontDrive.setPower(leftFrontDrivePower);
         rightRearDrive.setPower(rightRearDrivePower);
         moveClaw(clawsPOS);
-        if (mainArmPositionX != -1)
-            mainArm.setTargetPosition(mainArmPositionX);
-        mainArm.setPower(mainArmPower);
     }
 
     //used in Autonomous to set speed but retain direction.
@@ -198,32 +174,6 @@ class Hardware_OD_OmniDirection {
             else if (driveSpeedStick == driveSpeedMed) driveSpeedStick = driveSpeedMin;
             else if (driveSpeedStick == driveSpeedMax) driveSpeedStick = driveSpeedMed;
             else driveSpeedStick = driveSpeedMed;
-        }
-    }
-    void setArmPositionJoystick(double y, boolean toggleHolding, boolean movingToResting){  //TODO: Ask Sergio if we need the start button
-        if (movingToResting) { //when moveToResting button is held, arm motor uses encoders to move self.
-            mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            mainArmPower = -0.1;
-            mainArm.setTargetPosition(0);
-        }
-        else { //otherwise, joystick is used to control arm motor power.
-            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            if (toggleHolding) //used debounced button to toggle if holding.
-                mainArmHolding = !mainArmHolding;
-
-            if (y < 0) { //Moving arm down
-                mainArmPower = y * mainArmMaxDownPower;
-                if (mainArmHolding)
-                    //when moving the arm down, subtract it from  holding power.
-                    mainArmPower += mainArmHoldingPower;
-            }
-            else { //Moving arm up OR not moving arm
-                mainArmPower = y * mainArmMaxUpPower;
-                if (mainArmHolding && mainArmHoldingPower > mainArmPower)
-                    //when moving arm up, ignore input unless greater than holding power.
-                    mainArmPower = mainArmHoldingPower;
-            }
-
         }
     }
 
