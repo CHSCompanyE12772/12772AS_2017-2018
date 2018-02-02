@@ -169,7 +169,7 @@ class Hardware_OD_OmniDirection {
 
     //set drivePower given single-joystick input
     void povDrive(double x, double y, double cw, double acw, double speed){
-        if (cw+acw > 0)
+        if (cw+acw != 0)
         {
             leftRearDrivePower = Range.scale(cw - acw, -1.0, 1.0, -speed, speed);
             rightFrontDrivePower = -leftRearDrivePower;
@@ -259,5 +259,9 @@ class Hardware_OD_OmniDirection {
 
         leftTopClaw.setPosition(leftTopClawOffset - toPosition);
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);
+    }
+    void moveAuto(double sortOfX, double sortOfY, double rot, double speed){
+        povDrive(sortOfX, sortOfY, rot, 0, speed);
+        update();
     }
 }

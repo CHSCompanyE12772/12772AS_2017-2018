@@ -52,4 +52,12 @@ class General12772 {
     double[] rotateCoords(double xin, double yin) {
         return rotateCoords(xin,yin, Math.PI/4);
     }
+    double[] concat(double[] a, double[] b){ //New method, haven't tested. Connocates double arrays.
+        double out[] = new double[a.length + b.length];
+        for (int i = 0; i<a.length; i++)
+            out[i] = a[i];
+        for (int i = 0; i<b.length; i++)
+            out[i+a.length] = b[i];
+        return out;
+    }
 }
