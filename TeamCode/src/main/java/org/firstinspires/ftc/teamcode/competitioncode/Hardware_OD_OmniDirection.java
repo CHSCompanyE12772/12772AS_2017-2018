@@ -53,7 +53,7 @@ class Hardware_OD_OmniDirection {
     int[] mainArmPositions = {10, 120, 260, 320};
     int mainArmPosition = 0;
     int mainArmPositionX = -1;  //Test variable, find ideal arm positions
-    double mainArmHoldingPower = 0.2;
+    double mainArmHoldingPower = 0.18;
     double mainArmMaxUpPower = 0.8;
     double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
     boolean mainArmHolding = false;
@@ -260,7 +260,7 @@ class Hardware_OD_OmniDirection {
         if (decrease)
             clawsPOS -= incr;
         if (reset)
-            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.1;
+            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.2;
         // = middle position/2 * 1.1
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
