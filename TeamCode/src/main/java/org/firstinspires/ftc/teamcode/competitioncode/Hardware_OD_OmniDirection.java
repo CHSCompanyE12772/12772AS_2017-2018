@@ -9,6 +9,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -63,6 +64,9 @@ class Hardware_OD_OmniDirection {
     double driveSpeedMax = 1.0;
     double driveSpeedStick = driveSpeedMed;
 
+    //TODO: Kill me
+    boolean isAutoWorkAround;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -75,6 +79,8 @@ class Hardware_OD_OmniDirection {
     void init(HardwareMap ahwMap, boolean isAuto) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+        //TODO: Stop this madness...
+        isAutoWorkAround = false;
 
         leftRearDrive = hwMap.get(DcMotor.class, "leftRearDrive");   //LEFT DRIVE WHEEL MOTOR
         rightFrontDrive = hwMap.get(DcMotor.class, "rightFrontDrive");  //RIGHT DRIVE WHEEL MOTOR
@@ -94,7 +100,7 @@ class Hardware_OD_OmniDirection {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
         // This arm is backwards too, probably.
-        mainArm.setDirection(DcMotor.Direction.REVERSE);
+        mainArm.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power, juuuust in case
         leftRearDrive.setPower(0);
@@ -141,6 +147,8 @@ class Hardware_OD_OmniDirection {
         if (mainArmPositionX != -1)
             mainArm.setTargetPosition(mainArmPositionX);
         mainArm.setPower(mainArmPower);
+        if (isAutoWorkAround)
+            mainArm.setPower(0);
     }
 
     //used in Autonomous to set speed but retain direction.
@@ -200,6 +208,24 @@ class Hardware_OD_OmniDirection {
             else driveSpeedStick = driveSpeedMed;
         }
     }
+    void raiseArmSlightly(boolean mode){
+        if (mode) {
+            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            mainArmPower = mainArmMaxUpPower;
+        } else {
+            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            mainArmPower = mainArmHoldingPower;
+        }
+    }
+    void lowerArmSlightly(boolean mode){
+        if (mode) {
+            mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            mainArmPower = mainArmMaxDownPower;
+        } else {
+            mainArmPower = 0;
+            clawsPOS = 1.0;
+        }
+    }
     void setArmPositionJoystick(double y, boolean toggleHolding, boolean movingToResting){  //TODO: Ask Sergio if we need the start button
         if (movingToResting) { //when moveToResting button is held, arm motor uses encoders to move self.
             mainArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -228,7 +254,7 @@ class Hardware_OD_OmniDirection {
     }
 
     void setServoPositionTwoButton(boolean increase, boolean decrease, boolean reset){
-        double incr = 0.025; //increment per update. control how fast clawPOS changes.
+        double incr = 0.125; //increment per update. control how fast clawPOS changes.
         if (increase)
             clawsPOS += incr;
         if (decrease)

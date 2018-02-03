@@ -31,7 +31,8 @@ public class AutoODVuforia extends LinearOpMode {
     public void runOpMode() {
         r.mainArmPower = 0;
         r.init(hardwareMap, false);  //Initialization with safe space for snowflake-shakes.
-        r.clawsPOS = 0.5;  //Claws are set to an extended position
+        r.isAutoWorkAround = true;
+        r.clawsPOS = 0.1;  //Claws are set to an extended position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
         r.leftBottomClawOffset = 0.1;
@@ -68,40 +69,48 @@ public class AutoODVuforia extends LinearOpMode {
 
         relicTrackables.activate();   //Begin looking for and identifying set of VuMarks
 
-        //while (opModeIsActive()) {
 
-            /**
-             * See if any of the instances of {@link relicTemplate} are currently visible.
-             * {@link RelicRecoveryVuMark} is an enum which can have the following values:
-             * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
-             * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
-             */
-            RelicRecoveryVuMark vuMark;
-            do {
-                vuMark = RelicRecoveryVuMark.from(relicTemplate);
-                telemetry.addData("VuMark:", vuMark);
-                telemetry.update();
-            } while (vuMark == RelicRecoveryVuMark.UNKNOWN);
+        /**
+         * See if any of the instances of {@link relicTemplate} are currently visible.
+         * {@link RelicRecoveryVuMark} is an enum which can have the following values:
+         * UNKNOWN, LEFT, CENTER, and RIGHT. When a VuMark is visible, something other than
+         * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
+         */
+        RelicRecoveryVuMark vuMark;
+        do {
+            vuMark = RelicRecoveryVuMark.from(relicTemplate);
+            telemetry.addData("VuMark:", vuMark);
+            telemetry.update();
+        } while (vuMark == RelicRecoveryVuMark.UNKNOWN);
 
-            double[][] fieldMotions = new double[12][5];
-            for (int i = fieldMotions.length - 1; i >= 0; i--) //initializes empty procedure list.
-                Arrays.fill(fieldMotions[i], 0.0);
+        double[][] fieldMotions = new double[12][5];
+        for (int i = fieldMotions.length - 1; i >= 0; i--) //initializes empty procedure list.
+            Arrays.fill(fieldMotions[i], 0.0);
 
-            if (vuMark == RelicRecoveryVuMark.LEFT) {
-                fieldMotions[0] = g.concat(g.rotateCoords(-1,0), new double[]{0,r.driveSpeedMin,1000});
-                fieldMotions[1] = new double[]{0,0,0.5,r.driveSpeedMin,500};
-            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-                fieldMotions[0] = g.concat(g.rotateCoords(0,1), new double[]{0,r.driveSpeedMin,1000});
-                fieldMotions[1] = new double[]{0,0,1,r.driveSpeedMin,500};
-            } else { //RIGHT mark, by process of elimination.
-                fieldMotions[0] = g.concat(g.rotateCoords(1,0), new double[]{0,r.driveSpeedMin,1000});
-                fieldMotions[1] = new double[]{0,0,-0.5,r.driveSpeedMin,500};
-            }
-            for (double[] motion : fieldMotions) { //x,y,cw,speed,time
-                r.povDrive(motion[0], motion[1], motion[2], 0, motion[3]);
-                r.update();
-                sleep((long)motion[4]);
-            }
-        //}
+        r.raiseArmSlightly(true);
+        r.isAutoWorkAround = false;
+        r.update();
+        sleep(200);
+        r.raiseArmSlightly(false);
+        r.update();
+
+        if (vuMark == RelicRecoveryVuMark.LEFT) {
+            fieldMotions[0] = g.concat(g.rotateCoords(1, 0), new double[]{0, r.driveSpeedMin, 1500});
+            fieldMotions[1] = new double[]{0, 0, -0.5, r.driveSpeedMin, 1700};
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+        } else { //RIGHT mark, by process of elimination.
+        }
+        for (double[] motion : fieldMotions) { //x,y,cw,speed,time
+            r.povDrive(motion[0], motion[1], motion[2], 0, motion[3]);
+            r.update();
+            sleep((long) motion[4]);
+        }
+        r.lowerArmSlightly(true);
+        r.update();
+        sleep(300);
+        r.lowerArmSlightly(false);
+        r.update();
+        sleep(300);
+
     }
 }
