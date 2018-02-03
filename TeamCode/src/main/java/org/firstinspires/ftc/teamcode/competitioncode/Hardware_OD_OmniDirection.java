@@ -9,6 +9,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -94,7 +95,7 @@ class Hardware_OD_OmniDirection {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
         // This arm is backwards too, probably.
-        mainArm.setDirection(DcMotor.Direction.REVERSE);
+        mainArm.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power, juuuust in case
         leftRearDrive.setPower(0);
@@ -228,7 +229,7 @@ class Hardware_OD_OmniDirection {
     }
 
     void setServoPositionTwoButton(boolean increase, boolean decrease, boolean reset){
-        double incr = 0.025; //increment per update. control how fast clawPOS changes.
+        double incr = 0.125; //increment per update. control how fast clawPOS changes.
         if (increase)
             clawsPOS += incr;
         if (decrease)
