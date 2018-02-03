@@ -7,12 +7,12 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="Fuck DriveOD", group="OD")
+@TeleOp(name="CHRISTIAN DriveOD", group="OD")
 //@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 
-public class SuicidalDriveOD extends LinearOpMode {
+public class Armless_DriveOD extends LinearOpMode {
 
-    Suicidal_Hardware_OD_OmniDirection r = new Suicidal_Hardware_OD_OmniDirection(); //Use the shared hardware and function code.
+    Armless_Hardware_OD_OmniDirection r = new Armless_Hardware_OD_OmniDirection(); //Use the shared hardware and function code.
     General12772 g = new General12772(); //Use the shared general robot code.
 
     @Override //Does anyone know what this is or what it does?

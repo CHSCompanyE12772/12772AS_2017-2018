@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-class Suicidal_Hardware_OD_OmniDirection {
+class Armless_Hardware_OD_OmniDirection {
 
     // Declare OpMode members.
     ElapsedTime runtime = new ElapsedTime();
@@ -55,7 +55,7 @@ class Suicidal_Hardware_OD_OmniDirection {
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    Suicidal_Hardware_OD_OmniDirection(){
+    Armless_Hardware_OD_OmniDirection(){
     }
 
     //Main function called for initialization stage
