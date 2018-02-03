@@ -97,6 +97,7 @@ public class AutoODVuforia extends LinearOpMode {
         if (vuMark == RelicRecoveryVuMark.LEFT) {
             fieldMotions[0] = g.concat(g.rotateCoords(1, 0), new double[]{0, r.driveSpeedMin, 1500});
             fieldMotions[1] = new double[]{0, 0, -0.5, r.driveSpeedMin, 1700};
+            fieldMotions[2] = g.concat(g.rotateCoords(0, -1), new double[]{0, r.driveSpeedMin, 500});
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
         } else { //RIGHT mark, by process of elimination.
         }
@@ -111,6 +112,15 @@ public class AutoODVuforia extends LinearOpMode {
         r.lowerArmSlightly(false);
         r.update();
         sleep(300);
+
+        //Move backwards after cube dropped
+        double[] lastCoords = g.rotateCoords(0, 1);
+        r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMin);
+        r.update();
+        sleep(300);
+        //It's time to STOP.
+        r.povDrive(0,0,0,0,0);
+        r.update();
 
     }
 }
