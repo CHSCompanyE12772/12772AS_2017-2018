@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="CHRISTIAN DriveOD", group="OD")
 //@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-
 public class Armless_DriveOD extends LinearOpMode {
 
     Armless_Hardware_OD_OmniDirection r = new Armless_Hardware_OD_OmniDirection(); //Use the shared hardware and function code.
