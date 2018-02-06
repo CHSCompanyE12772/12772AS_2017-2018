@@ -95,14 +95,14 @@ public class AutoODVuforia extends LinearOpMode {
         r.update();
 
         if (vuMark == RelicRecoveryVuMark.LEFT) {
-            fieldMotions[0] = g.concat(g.rotateCoords(1, 0), new double[]{0, r.driveSpeedMin, 1500});
-            fieldMotions[1] = new double[]{0, 0, -0.5, r.driveSpeedMin, 1700};
-            fieldMotions[2] = g.concat(g.rotateCoords(0, -1), new double[]{0, r.driveSpeedMin, 500});
+            fieldMotions[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+            fieldMotions[1] = fieldRotate(true,-0.5 * r.driveSpeedMin, 1700);
+            fieldMotions[2] = fieldTranslate(0,1,r.driveSpeedMin,500);
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
         } else { //RIGHT mark, by process of elimination.
         }
-        for (double[] motion : fieldMotions) { //x,y,cw,speed,time
-            r.povDrive(motion[0], motion[1], motion[2], 0, motion[3]);
+        for (double[] motion : fieldMotions) { //x,y,cw,acw,speed; time
+            r.povDrive(motion[0], -motion[1], motion[2], 0, motion[3]); //invert y, because joystick is backwards and povDrive is based on joystick
             r.update();
             sleep((long) motion[4]);
         }
@@ -122,5 +122,12 @@ public class AutoODVuforia extends LinearOpMode {
         r.povDrive(0,0,0,0,0);
         r.update();
 
+    }
+    double[] fieldTranslate(double x, double y, double speed, long time){ //+y is forward, +x is right
+        return g.concat(g.rotateCoords(x, y), new double[]{0, speed, time});
+    }
+    double[] fieldRotate(boolean clockwise, double speed, long time){
+        if (!clockwise) speed *= -1;
+        return new double[]{0, 0, 1, speed, time};
     }
 }
