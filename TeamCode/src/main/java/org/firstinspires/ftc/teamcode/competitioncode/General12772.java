@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 /**
- * Class used to store useful, non-hardware specific methods and fields.
+ * Class used to store useful but non-hardware specific methods and fields.
  */
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,7 +39,6 @@ class General12772 {
     }
 
     double[] rotateCoords(double xin, double yin, double deltaTheta) {
-        //TODO: Test if this works.
         double theta = Math.atan2(-yin, xin);
         theta += deltaTheta;
         double hyp = Math.hypot(xin, yin);
