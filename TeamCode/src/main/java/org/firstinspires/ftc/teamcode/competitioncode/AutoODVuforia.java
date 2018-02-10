@@ -109,7 +109,7 @@ public class AutoODVuforia extends LinearOpMode {
         }
         for (double[] motion : fieldMotions) { //x,y,acw,cw,speed; time
             //FIXME: Not moving in correct direction. Negating X or Y coordinate causes 90 degree rotation in motion (WTF?)
-            r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]); //invert y, because joystick is backwards and povDrive is based on joystick
+            r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]);
             r.update();
             sleep((long) motion[4]);
         }
@@ -132,7 +132,8 @@ public class AutoODVuforia extends LinearOpMode {
     }
     /**Rotate, mirror, and prepare inputs to be used by POV drive method for translating*/
     double[] fieldTranslate(double x, double y, double speed, long time){ //+y is forward, +x is right
-        return g.concat(g.rotateCoords(x, y,3*Math.PI/4), new double[]{0, speed, time});
+        double deltaTheta = 3*Math.PI/4; //this number works for some reason
+        return g.concat(g.rotateCoords(x, y, deltaTheta), new double[]{0, speed, time});
     }
     /**Rotate prepare inputs to be used by POV drive method for translating, easier for user.*/
     double[] fieldRotate(boolean clockwise, double speed, long time){
