@@ -32,8 +32,8 @@ public class DriveOD extends LinearOpMode {
             r.setDriveSpeedWithButtons(
                     g.debounce(gamepad1.a,1,8),
                     g.debounce(gamepad1.b,1,7));
-            double[] motionCoords = g.rotateCoords(gamepad1.left_stick_x, gamepad1.left_stick_y);
-            r.povDrive(motionCoords[0], motionCoords[1], gamepad1.left_trigger, gamepad1.right_trigger, r.driveSpeedStick);
+            double[] motionCoords = g.rotateCoords(gamepad1.left_stick_x, -gamepad1.left_stick_y);
+            r.povDrive(motionCoords[0], motionCoords[1], gamepad1.right_trigger, gamepad1.left_trigger, r.driveSpeedStick);
 
             //Control Arm power and/or position
             r.setArmPositionJoystick(

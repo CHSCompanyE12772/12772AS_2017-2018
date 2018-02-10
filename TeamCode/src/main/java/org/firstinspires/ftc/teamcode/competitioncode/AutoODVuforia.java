@@ -96,13 +96,20 @@ public class AutoODVuforia extends LinearOpMode {
 
         if (vuMark == RelicRecoveryVuMark.LEFT) {
             fieldMotions[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
-            fieldMotions[1] = fieldRotate(true,-0.5 * r.driveSpeedMin, 1700);
+            fieldMotions[1] = fieldRotate(true,0.5 * r.driveSpeedMin, 1700);
             fieldMotions[2] = fieldTranslate(0,1,r.driveSpeedMin,500);
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            fieldMotions[0] = fieldTranslate(-1,0, r.driveSpeedMin,1500);
+            fieldMotions[1] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+            fieldMotions[2] = fieldTranslate(0,1, r.driveSpeedMin,1500);
+            fieldMotions[3] = fieldTranslate(0,-1, r.driveSpeedMin,1500);
+            fieldMotions[4] = fieldRotate(true,0.5 * r.driveSpeedMin, 2000);
+            fieldMotions[5] = fieldRotate(false,0.5 * r.driveSpeedMin, 2000);
         } else { //RIGHT mark, by process of elimination.
         }
-        for (double[] motion : fieldMotions) { //x,y,cw,acw,speed; time
-            r.povDrive(motion[0], -motion[1], motion[2], 0, motion[3]); //invert y, because joystick is backwards and povDrive is based on joystick
+        for (double[] motion : fieldMotions) { //x,y,acw,cw,speed; time
+            //FIXME: Not moving in correct direction. Negating X or Y coordinate causes 90 degree rotation in motion (WTF?)
+            r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]); //invert y, because joystick is backwards and povDrive is based on joystick
             r.update();
             sleep((long) motion[4]);
         }
@@ -114,7 +121,7 @@ public class AutoODVuforia extends LinearOpMode {
         sleep(300);
 
         //Move backwards after cube dropped
-        double[] lastCoords = g.rotateCoords(0, 1);
+        double[] lastCoords = g.rotateCoords(0, -1);
         r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMin);
         r.update();
         sleep(300);
@@ -123,9 +130,11 @@ public class AutoODVuforia extends LinearOpMode {
         r.update();
 
     }
+    /**Rotate, mirror, and prepare inputs to be used by POV drive method for translating*/
     double[] fieldTranslate(double x, double y, double speed, long time){ //+y is forward, +x is right
-        return g.concat(g.rotateCoords(x, y), new double[]{0, speed, time});
+        return g.concat(g.rotateCoords(x, y,3*Math.PI/4), new double[]{0, speed, time});
     }
+    /**Rotate prepare inputs to be used by POV drive method for translating, easier for user.*/
     double[] fieldRotate(boolean clockwise, double speed, long time){
         if (!clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
