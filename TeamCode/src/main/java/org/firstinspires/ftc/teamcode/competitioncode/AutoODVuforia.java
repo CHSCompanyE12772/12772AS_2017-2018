@@ -107,8 +107,7 @@ public class AutoODVuforia extends LinearOpMode {
             fieldMotions[5] = fieldRotate(false,0.5 * r.driveSpeedMin, 2000);
         } else { //RIGHT mark, by process of elimination.
         }
-        for (double[] motion : fieldMotions) { //x,y,acw,cw,speed; time
-            //FIXME: Not moving in correct direction. Negating X or Y coordinate causes 90 degree rotation in motion (WTF?)
+        for (double[] motion : fieldMotions) { //i,j,acw,cw,speed; time
             r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]);
             r.update();
             sleep((long) motion[4]);
@@ -131,9 +130,10 @@ public class AutoODVuforia extends LinearOpMode {
 
     }
     /**Rotate, mirror, and prepare inputs to be used by POV drive method for translating*/
-    double[] fieldTranslate(double x, double y, double speed, long time){ //+y is forward, +x is right
-        double deltaTheta = 3*Math.PI/4; //this number works for some reason
-        return g.concat(g.rotateCoords(x, y, deltaTheta), new double[]{0, speed, time});
+    double[] fieldTranslate(double x, double y, double speed, long time){
+        //+y is forward, +x is right.
+        //coordinates returned are rotated to i-j axes. See povDrive method in hardware class for details.
+        return g.concat(g.rotateCoords(x, y), new double[]{0, speed, time});
     }
     /**Rotate prepare inputs to be used by POV drive method for translating, easier for user.*/
     double[] fieldRotate(boolean clockwise, double speed, long time){

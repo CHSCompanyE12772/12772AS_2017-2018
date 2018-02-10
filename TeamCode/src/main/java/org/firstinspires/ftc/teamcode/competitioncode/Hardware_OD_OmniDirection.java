@@ -176,7 +176,9 @@ class Hardware_OD_OmniDirection {
     }
 
     //set drivePower given single-joystick input
-    void povDrive(double x, double y, double acw, double cw, double speed){
+    void povDrive(double i, double j, double acw, double cw, double speed){
+        /**i and j are the rotated axes. As a result, negating i would counter-intuitively create a
+         * motion perpendicular to the original, rather than the expected anti-parallel.*/
         if (cw+acw != 0)
         {
             leftRearDrivePower = Range.scale(cw - acw, -1.0, 1.0, -speed, speed);
@@ -186,9 +188,9 @@ class Hardware_OD_OmniDirection {
         }
         else
         {
-            leftRearDrivePower = Range.scale(y, -1.0, 1.0, speed, -speed);
+            leftRearDrivePower = Range.scale(j, -1.0, 1.0, speed, -speed);
             rightFrontDrivePower = leftRearDrivePower;
-            leftFrontDrivePower = Range.scale(x, -1.0, 1.0, -speed, speed);
+            leftFrontDrivePower = Range.scale(i, -1.0, 1.0, -speed, speed);
             rightRearDrivePower = leftFrontDrivePower;
         }
     }

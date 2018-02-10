@@ -20,16 +20,14 @@ class General12772 {
 
     /* Constructor */
     General12772() {
-        // Opened up Android Studio and took a look at AutoRWDDistance and computer started throwing tantrums.
-        // Fixed those tantrums by removing the parameters for this constructor.
-        //We don't need a new Hardware_RWD_RearWheelDrive for non-OP mode classes.
     }
 
     void init() {
         for (int i = debouncePressedArray.length - 1; i >= 0; i--) //initializes all gamepad debouncers
             Arrays.fill(debouncePressedArray[i], false);
     }
-
+    /**Probably misleading name. Outputs true on rising edge of boolean input.
+     * debouncePressedArray stores channels. See 'legends for PressedArrays.txt' for details.*/
     boolean debounce(boolean input, int gamepadNumber, int buttonIndex) {
         if (input != debouncePressedArray[gamepadNumber][buttonIndex]) {
             debouncePressedArray[gamepadNumber][buttonIndex] = input;
@@ -37,7 +35,8 @@ class General12772 {
         } else
             return false;
     }
-
+    /**takes x-y coordinate and outputs a rotated i-j coordinate. i-j coordinate system is not
+     * intuitive, so it is recommended to perform all math in x-y before rotating to i-j.*/
     double[] rotateCoords(double xin, double yin, double deltaTheta) {
         double theta = Math.atan2(-yin, xin);
         theta += deltaTheta;
@@ -47,11 +46,13 @@ class General12772 {
                 hyp * Math.sin(theta),};
         return newCoords;
     }
-
+    /**Used by Omni-Direction robot to convert user-friendly x-y to physical i-j at 45 degree angle.*/
     double[] rotateCoords(double xin, double yin) {
         return rotateCoords(xin,yin, 5*Math.PI/4);
     }
-    double[] concat(double[] a, double[] b){ //New method, haven't tested. Connocates double arrays.
+
+    /**Concatenate. Don't know which library could do this, so made my own.*/
+    double[] concat(double[] a, double[] b){
         double out[] = new double[a.length + b.length];
         for (int i = 0; i<a.length; i++)
             out[i] = a[i];
