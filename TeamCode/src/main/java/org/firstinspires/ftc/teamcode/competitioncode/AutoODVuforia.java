@@ -99,6 +99,7 @@ public class AutoODVuforia extends LinearOpMode {
             fieldMotions[1] = fieldRotate(true,0.5 * r.driveSpeedMin, 1700);
             fieldMotions[2] = fieldTranslate(0,1,r.driveSpeedMin,500);
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            //TODO: Get working values
             fieldMotions[0] = fieldTranslate(-1,0, r.driveSpeedMin,1500);
             fieldMotions[1] = fieldTranslate(1,0, r.driveSpeedMin,1500);
             fieldMotions[2] = fieldTranslate(0,1, r.driveSpeedMin,1500);
@@ -106,6 +107,7 @@ public class AutoODVuforia extends LinearOpMode {
             fieldMotions[4] = fieldRotate(true,0.5 * r.driveSpeedMin, 2000);
             fieldMotions[5] = fieldRotate(false,0.5 * r.driveSpeedMin, 2000);
         } else { //RIGHT mark, by process of elimination.
+            //TODO: Test if this is overridden correctly by child.
             fieldMotions = getRightSideProcedures();
         }
         for (double[] motion : fieldMotions) { //i,j,acw,cw,speed; time
@@ -143,9 +145,47 @@ public class AutoODVuforia extends LinearOpMode {
     }
     double[][] getRightSideProcedures(){
         return new double[][]{
+                /** Spins when called*/
                 fieldRotate(true,0.5 * r.driveSpeedMin, 4000),
                 fieldRotate(false,0.5 * r.driveSpeedMin, 4000),
         };
     }
 
+    //TODO: Does anything past this line even work? Needs testing to see.
+
+    double[][] proceduresForLongSide(boolean isRed) {
+        /**Procedures for red side.*/
+        double[][] procedures = new double[][]{
+                fieldRotate(true, 0.5 * r.driveSpeedMin, 4000),
+                fieldRotate(false, 0.5 * r.driveSpeedMin, 4000),
+        };
+        /**Parallel to procedures array. Which motions are mirrored for opposite color?*/
+        boolean[] mirroredWhenBlue = new boolean[]{
+                false,
+                true
+        };
+        /**Mirror appropriate values for blue side.*/
+        if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
+        return procedures;
+    }
+    double[][] proceduresForShortSide(boolean isRed) {
+        //TODO: Copy and paste code from LongSide, once it has been shown to work.
+        double[][] procedures = new double[0][5];
+        return procedures;
+    }
+    /**Method that takes procedures list and parallel list of which motions need to be reversed,
+     * and returns mirrored procedures.*/
+    double[][] mirrorProcedures(double[][] procedures, boolean[] mirrorThese){
+        for (int i = 0; i < procedures.length; i++) {
+            if (mirrorThese[i]) {
+                /**note that negating both i and j will produce anti-parallel motion.*/
+                /**I did not use a loop for negating these, since they just happen to be consecutive.*/
+                procedures[i][0] *= -1; //i rotation
+                procedures[i][1] *= -1; //j rotation
+                procedures[i][2] *= -1; //acw rotation
+                procedures[i][3] *= -1; //cw rotation
+            }
+        }
+        return procedures;
+    }
 }
