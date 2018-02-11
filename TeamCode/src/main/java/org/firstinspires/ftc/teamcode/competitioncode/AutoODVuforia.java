@@ -106,6 +106,7 @@ public class AutoODVuforia extends LinearOpMode {
             fieldMotions[4] = fieldRotate(true,0.5 * r.driveSpeedMin, 2000);
             fieldMotions[5] = fieldRotate(false,0.5 * r.driveSpeedMin, 2000);
         } else { //RIGHT mark, by process of elimination.
+            fieldMotions = getRightSideProcedures();
         }
         for (double[] motion : fieldMotions) { //i,j,acw,cw,speed; time
             r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]);
@@ -140,4 +141,11 @@ public class AutoODVuforia extends LinearOpMode {
         if (!clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
     }
+    double[][] getRightSideProcedures(){
+        return new double[][]{
+                fieldRotate(true,0.5 * r.driveSpeedMin, 4000),
+                fieldRotate(false,0.5 * r.driveSpeedMin, 4000),
+        };
+    }
+
 }
