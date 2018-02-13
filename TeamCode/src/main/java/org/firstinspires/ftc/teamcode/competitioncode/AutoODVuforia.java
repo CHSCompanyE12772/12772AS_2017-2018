@@ -103,7 +103,9 @@ public class AutoODVuforia extends LinearOpMode {
         } else { //RIGHT mark, by process of elimination.
             fieldMotions = getRightSideProcedures();
         }
-        for (double[] motion : fieldMotions) { //i,j,acw,cw,speed; time
+        /**fieldMotions should contain [i, j, cw, speed, time]*/
+        for (double[] motion : fieldMotions) {
+            //i,j,acw(0),cw,speed; time
             r.povDrive(motion[0], motion[1], 0, motion[2], motion[3]);
             r.update();
             sleep((long) motion[4]);
@@ -133,7 +135,7 @@ public class AutoODVuforia extends LinearOpMode {
     }
     /**Prepare inputs to be used by POV drive method for translating, easier for user.*/
     double[] fieldRotate(boolean clockwise, double speed, long time){
-        if (!clockwise) speed *= -1;
+        if (clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
     }
     double[][] getLeftSideProcedures(){
@@ -185,23 +187,16 @@ public class AutoODVuforia extends LinearOpMode {
     /**Method that takes procedures list and parallel list of which motions need to be reversed,
      * and returns mirrored procedures.*/
     double[][] mirrorProcedures(double[][] procedures, boolean[] mirrorThese){
-        //TODO: Test if this method is even being called by having it return a new unique procedure
-            //Is the problem if: robot DOES NOT follow new unique procedure when mirrored.
-        //TODO: If not the problem (INTP), test if for/if is being called by having it return a new unique procedure
-            //Is the problem if: procedures are NOT set to new unique procedure
-        //TODO: INTP, test if *= sign is problem by using = sign for new unique procedure.
-            //Is the problem if: changing to equals sign creates unique procedure
-        //TODO: INTP, cry a bit, then take a breather and look through rest of code.
         for (int i = 0; i < procedures.length; i++) {
             if (mirrorThese[i]) {
                 /**note that negating both i and j will produce anti-parallel motion.*/
                 /**I did not use a loop for negating these, since they just happen to be consecutive.*/
-                procedures[i][0] *= -1; //i rotation
-                procedures[i][1] *= -1; //j rotation
-                procedures[i][2] *= -1; //acw rotation
-                procedures[i][3] *= -1; //cw rotation
+                procedures[i][0] *= -1.0; //i rotation
+                procedures[i][1] *= -1.0; //j rotation
+                procedures[i][2] *= -1.0; //"cw" rotation
             }
         }
+
         return procedures;
     }
 }
