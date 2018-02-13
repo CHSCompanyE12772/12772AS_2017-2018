@@ -125,13 +125,13 @@ public class AutoODVuforia extends LinearOpMode {
         r.update();
 
     }
-    /**Rotate, mirror, and prepare inputs to be used by POV drive method for translating*/
+    /**Rotate and prepare inputs to be used by POV drive method for translating*/
     double[] fieldTranslate(double x, double y, double speed, long time){
         //+y is forward, +x is right.
         //coordinates returned are rotated to i-j axes. See povDrive method in hardware class for details.
         return g.concat(g.rotateCoords(x, y), new double[]{0, speed, time});
     }
-    /**Rotate prepare inputs to be used by POV drive method for translating, easier for user.*/
+    /**Prepare inputs to be used by POV drive method for translating, easier for user.*/
     double[] fieldRotate(boolean clockwise, double speed, long time){
         if (!clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
@@ -185,6 +185,13 @@ public class AutoODVuforia extends LinearOpMode {
     /**Method that takes procedures list and parallel list of which motions need to be reversed,
      * and returns mirrored procedures.*/
     double[][] mirrorProcedures(double[][] procedures, boolean[] mirrorThese){
+        //TODO: Test if this method is even being called by having it return a new unique procedure
+            //Is the problem if: robot DOES NOT follow new unique procedure when mirrored.
+        //TODO: If not the problem (INTP), test if for/if is being called by having it return a new unique procedure
+            //Is the problem if: procedures are NOT set to new unique procedure
+        //TODO: INTP, test if *= sign is problem by using = sign for new unique procedure.
+            //Is the problem if: changing to equals sign creates unique procedure
+        //TODO: INTP, cry a bit, then take a breather and look through rest of code.
         for (int i = 0; i < procedures.length; i++) {
             if (mirrorThese[i]) {
                 /**note that negating both i and j will produce anti-parallel motion.*/
