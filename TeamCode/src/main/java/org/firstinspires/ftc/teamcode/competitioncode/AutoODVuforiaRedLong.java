@@ -22,15 +22,13 @@ import java.util.Arrays;
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaRedLong extends AutoODVuforia
 {
-    double[][] getRightSideProcedures(){
-        return new double[][]{
-                /** Move right and left when called*/
-                fieldTranslate(1,0,r.driveSpeedMin,2000),
-                fieldTranslate(-1,0,r.driveSpeedMin,2000),
-        };
-    }
-    //TODO: Test this call working. Also test it with isRed = false.
     double[][] getLeftSideProcedures(){
+        return proceduresForLongSide(true);
+    }
+    double[][] getCenterSideProcedures(){
+        return proceduresForLongSide(false);
+    }
+    double[][] getRightSideProcedures(){
         return proceduresForLongSide(true);
     }
 }
