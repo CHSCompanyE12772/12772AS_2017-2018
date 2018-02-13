@@ -174,14 +174,6 @@ public class AutoODVuforia extends LinearOpMode {
         };
         /**Mirror appropriate values for blue side.*/
         if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
-        if (!isRed) procedures = new double[][]{
-                fieldTranslate(1,0, r.driveSpeedMin,1500),
-                fieldTranslate(1,0, r.driveSpeedMin,1500),
-                fieldTranslate(0,1, r.driveSpeedMin,1500),
-                fieldTranslate(0,-1, r.driveSpeedMin,1500),
-                fieldRotate(true,0.5 * r.driveSpeedMin, 2000),
-                fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
-        };
 
         return procedures;
     }
