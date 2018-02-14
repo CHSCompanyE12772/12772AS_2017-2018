@@ -82,7 +82,7 @@ public class AutoODVuforia extends LinearOpMode {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             telemetry.addData("VuMark:", vuMark);
             telemetry.update();
-        } while (vuMark == RelicRecoveryVuMark.UNKNOWN);
+        } while (vuMark == RelicRecoveryVuMark.UNKNOWN && r.runtime.seconds() <= 5); //Wait until mark is found or time is running out
 
         double[][] fieldMotions = new double[12][5];
         for (int i = fieldMotions.length - 1; i >= 0; i--) //initializes empty procedure list.
