@@ -142,6 +142,11 @@ public class AutoODVuforia extends LinearOpMode {
         if (clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
     }
+    /**Place holder methods, DO NOT DELETE!
+     * These methods are overridden by children, and function like abstract methods.
+     * TODO: Test to see if the class and these OP modes can be made abstract
+     * The methods that override these in the children are called within runOpMode() method, allowing
+     * the children OP Modes to insert their code into runOPMode() method without overriding it.*/
     double[][] getLeftSideProcedures(){
         return new double[][]{
         };
@@ -197,8 +202,34 @@ public class AutoODVuforia extends LinearOpMode {
         return procedures;
     }
     double[][] proceduresForShortSide(boolean isRed, int posDist) {
-        //TODO: Copy and paste code from LongSide, once it has been shown to work.
-        double[][] procedures = new double[0][5];
+        /**Copy-Pasted from proceduresForLongSide.*/
+        /**posDist determines farness of column, still.*/
+        //TODO: Create procedures that work for short side.
+        double[][] procedures = new double[][]{
+                fieldTranslate(1,0, r.driveSpeedMin,1500),
+                fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
+                fieldTranslate(0,1,r.driveSpeedMin,500),
+        };
+        switch (posDist) {
+            case 0: /**Closest column, could be right or left.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+                break;
+            case 1: /**Center column.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,3000);
+                break;
+            case 2: /**Farthest column, could be left or right.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,4500);
+                break;
+        }
+        /**Parallel to procedures array. Stores which motions are mirrored for opposite color.*/
+        boolean[] mirroredWhenBlue = new boolean[]{
+                true,
+                true,
+                false,
+        };
+        /**Mirror appropriate values for blue side.*/
+        if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
+
         return procedures;
     }
     /**Method that takes procedures list and parallel list of which motions need to be reversed,
