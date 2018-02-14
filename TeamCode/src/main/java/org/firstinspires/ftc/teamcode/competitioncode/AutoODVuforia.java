@@ -97,10 +97,15 @@ public class AutoODVuforia extends LinearOpMode {
 
         if (vuMark == RelicRecoveryVuMark.LEFT) {
             fieldMotions = getLeftSideProcedures();
+
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
             fieldMotions = getCenterSideProcedures();
-        } else { //RIGHT mark, by process of elimination.
+
+        } else if (vuMark == RelicRecoveryVuMark.RIGHT) {
             fieldMotions = getRightSideProcedures();
+
+        } else { //If it cannot determine the mark, guess the middle one.
+            fieldMotions = getCenterSideProcedures();
         }
         /**fieldMotions should contain [i, j, cw, speed, time]*/
         for (double[] motion : fieldMotions) {
@@ -161,14 +166,26 @@ public class AutoODVuforia extends LinearOpMode {
             fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
     };
 
-    double[][] proceduresForLongSide(boolean isRed) {
+    double[][] proceduresForLongSide(boolean isRed, int posDist) {
         /**Procedures for red side.*/
+        /**posDist determines farness of column.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(1,0, r.driveSpeedMin,1500),
+                fieldTranslate(1,0, r.driveSpeedMin,1500), /**Overriden by switch*/
                 fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
                 fieldTranslate(0,1,r.driveSpeedMin,500),
         };
-        /**Parallel to procedures array. Which motions are mirrored for opposite color?*/
+        switch (posDist) {
+            case 0: /**Closest column, could be right or left.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+                break;
+            case 1: /**Center column.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,3000);
+                break;
+            case 2: /**Farthest column, could be left or right.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,4500);
+                break;
+        }
+        /**Parallel to procedures array. Stores which motions are mirrored for opposite color.*/
         boolean[] mirroredWhenBlue = new boolean[]{
                 true,
                 true,
@@ -179,7 +196,7 @@ public class AutoODVuforia extends LinearOpMode {
 
         return procedures;
     }
-    double[][] proceduresForShortSide(boolean isRed) {
+    double[][] proceduresForShortSide(boolean isRed, int posDist) {
         //TODO: Copy and paste code from LongSide, once it has been shown to work.
         double[][] procedures = new double[0][5];
         return procedures;

@@ -13,11 +13,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class AutoODVuforiaBlueLong extends AutoODVuforia
 {
     double[][] getLeftSideProcedures(){
-        return proceduresForLongSide(false);
+        return proceduresForLongSide(false, 0);
     }
     double[][] getCenterSideProcedures(){
-        return proceduresForLongSide(false);
+        return proceduresForLongSide(false, 1);
     }
-    double[][] getRightSideProcedures(){ return proceduresForLongSide(false);
+    double[][] getRightSideProcedures(){ return proceduresForLongSide(false,2);
     }
 }
