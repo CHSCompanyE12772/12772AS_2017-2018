@@ -18,6 +18,7 @@ public class AutoODVuforiaBlueLong extends AutoODVuforia
     double[][] getCenterSideProcedures(){
         return proceduresForLongSide(false, 1);
     }
-    double[][] getRightSideProcedures(){ return proceduresForLongSide(false,2);
+    double[][] getRightSideProcedures(){
+        return proceduresForLongSide(false,2);
     }
 }

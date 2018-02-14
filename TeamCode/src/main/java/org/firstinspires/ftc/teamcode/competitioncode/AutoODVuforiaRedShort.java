@@ -18,6 +18,7 @@ public class AutoODVuforiaRedShort extends AutoODVuforia
     double[][] getCenterSideProcedures(){
         return proceduresForShortSide(true, 1);
     }
-    double[][] getRightSideProcedures(){ return proceduresForShortSide(true, 0);
+    double[][] getRightSideProcedures(){
+        return proceduresForShortSide(true, 0);
     }
 }

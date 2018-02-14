@@ -165,7 +165,6 @@ public class AutoODVuforia extends LinearOpMode {
             fieldRotate(true,0.5 * r.driveSpeedMin, 2000),
             fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
     };
-
     double[][] proceduresForLongSide(boolean isRed, int posDist) {
         /**Procedures for red side.*/
         /**posDist determines farness of column.*/
@@ -196,9 +195,35 @@ public class AutoODVuforia extends LinearOpMode {
 
         return procedures;
     }
+
     double[][] proceduresForShortSide(boolean isRed, int posDist) {
-        //TODO: Copy and paste code from LongSide, once it has been shown to work.
-        double[][] procedures = new double[0][5];
+        /**Same as proceduresForLongSide but with different procedures and mirroredWhenBlue. Could
+         * probably be condensed, but doesn't really need to be.*/
+        double[][] procedures = new double[][]{
+                fieldTranslate(0,1, r.driveSpeedMin,1500), /**Overriden by switch*/
+                fieldRotate(true,0.5 * r.driveSpeedMin, 1000),
+                fieldTranslate(0,1,r.driveSpeedMin,500),
+        };
+        switch (posDist) {
+            case 0: /**Closest column, could be right or left.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+                break;
+            case 1: /**Center column.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,3000);
+                break;
+            case 2: /**Farthest column, could be left or right.*/
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,4500);
+                break;
+        }
+        /**Parallel to procedures array. Stores which motions are mirrored for opposite color.*/
+        boolean[] mirroredWhenBlue = new boolean[]{
+                true,
+                true,
+                false,
+        };
+        /**Mirror appropriate values for blue side.*/
+        if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
+
         return procedures;
     }
     /**Method that takes procedures list and parallel list of which motions need to be reversed,
