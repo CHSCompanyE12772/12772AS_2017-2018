@@ -15,11 +15,12 @@ import java.util.Arrays;
 
 
 /**
- * Autonomous OP mode to identify and act using vuforia mark identification, parent to each corner's OP mode.
+ * Autonomous "OP mode" to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
 @Autonomous(name = "AutoOD Vuforia Body", group = "OD")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+//TODO: Test if this can be made abstract or disabled from usage, only used for children.
 public class AutoODVuforia extends LinearOpMode {
 
     Hardware_OD_OmniDirection r = new Hardware_OD_OmniDirection();
@@ -95,9 +96,7 @@ public class AutoODVuforia extends LinearOpMode {
         r.update();
 
         if (vuMark == RelicRecoveryVuMark.LEFT) {
-            fieldMotions[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
-            fieldMotions[1] = fieldRotate(true,0.5 * r.driveSpeedMin, 1700);
-            fieldMotions[2] = fieldTranslate(0,1,r.driveSpeedMin,500);
+            fieldMotions = getLeftSideProcedures();
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
             fieldMotions = getCenterSideProcedures();
         } else { //RIGHT mark, by process of elimination.
@@ -153,26 +152,27 @@ public class AutoODVuforia extends LinearOpMode {
 
 
 
-    //TODO: Does anything past this line even work? Needs testing to see.
+    final double[][] testProcedures = new double[][]{
+            fieldTranslate(-1,0, r.driveSpeedMin,1500),
+            fieldTranslate(1,0, r.driveSpeedMin,1500),
+            fieldTranslate(0,1, r.driveSpeedMin,1500),
+            fieldTranslate(0,-1, r.driveSpeedMin,1500),
+            fieldRotate(true,0.5 * r.driveSpeedMin, 2000),
+            fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
+    };
 
     double[][] proceduresForLongSide(boolean isRed) {
         /**Procedures for red side.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(-1,0, r.driveSpeedMin,1500),
                 fieldTranslate(1,0, r.driveSpeedMin,1500),
-                fieldTranslate(0,1, r.driveSpeedMin,1500),
-                fieldTranslate(0,-1, r.driveSpeedMin,1500),
-                fieldRotate(true,0.5 * r.driveSpeedMin, 2000),
-                fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
+                fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
+                fieldTranslate(0,1,r.driveSpeedMin,500),
         };
         /**Parallel to procedures array. Which motions are mirrored for opposite color?*/
         boolean[] mirroredWhenBlue = new boolean[]{
                 true,
                 true,
-                true,
-                true,
-                true,
-                true
+                false,
         };
         /**Mirror appropriate values for blue side.*/
         if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
