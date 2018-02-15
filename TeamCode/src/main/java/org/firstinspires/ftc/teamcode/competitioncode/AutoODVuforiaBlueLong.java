@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * child for Blue corner with cryptobox on long side.
  */
 
-@Autonomous(name = "AutoOD Vuforia Blue Long", group = "OD")
+@Autonomous(name = "AutoOD Vuforia Blue Long", group = "OD_VF")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaBlueLong extends AutoODVuforia
 {
@@ -18,6 +18,7 @@ public class AutoODVuforiaBlueLong extends AutoODVuforia
     double[][] getCenterSideProcedures(){
         return proceduresForLongSide(false, 1);
     }
-    double[][] getRightSideProcedures(){ return proceduresForLongSide(false,2);
+    double[][] getRightSideProcedures(){
+        return proceduresForLongSide(false,2);
     }
 }

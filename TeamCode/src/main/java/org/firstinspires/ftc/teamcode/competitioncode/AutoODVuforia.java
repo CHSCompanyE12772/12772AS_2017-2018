@@ -18,10 +18,13 @@ import java.util.Arrays;
  * Autonomous "OP mode" to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
-@Autonomous(name = "AutoOD Vuforia Body", group = "OD")
-//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-//TODO: Test if this can be made abstract or disabled from usage, only used for children.
-public class AutoODVuforia extends LinearOpMode {
+@Autonomous(name = "[Error! Please disable AutoODVuforia]", group = "OD_VF") //If the name displays, an error has occurred.
+
+/**Because this is an abstract class and will not run, we will disable it to prevent it from being
+ * seen on Driver Station. Children of this superclass do not inherit @Disabled.*/
+@Disabled
+
+public abstract class AutoODVuforia extends LinearOpMode {
 
     Hardware_OD_OmniDirection r = new Hardware_OD_OmniDirection();
     General12772 g = new General12772(); //Use the shared general robot code.
@@ -142,24 +145,9 @@ public class AutoODVuforia extends LinearOpMode {
         if (clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
     }
-    /**Place holder methods, DO NOT DELETE!
-     * These methods are overridden by children, and function like abstract methods.
-     * TODO: Test to see if the class and these OP modes can be made abstract
-     * The methods that override these in the children are called within runOpMode() method, allowing
-     * the children OP Modes to insert their code into runOPMode() method without overriding it.*/
-    double[][] getLeftSideProcedures(){
-        return new double[][]{
-        };
-    }
-    double[][] getCenterSideProcedures(){
-        return new double[][]{
-        };
-    }
-    double[][] getRightSideProcedures(){
-        return new double[][]{
-        };
-    }
-
+    abstract double[][] getLeftSideProcedures();
+    abstract double[][] getCenterSideProcedures();
+    abstract double[][] getRightSideProcedures();
 
 
     final double[][] testProcedures = new double[][]{
@@ -170,24 +158,24 @@ public class AutoODVuforia extends LinearOpMode {
             fieldRotate(true,0.5 * r.driveSpeedMin, 2000),
             fieldRotate(false,0.5 * r.driveSpeedMin, 2000),
     };
-
     double[][] proceduresForLongSide(boolean isRed, int posDist) {
         /**Procedures for red side.*/
         /**posDist determines farness of column.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(1,0, r.driveSpeedMin,1500), /**Overriden by switch*/
+                fieldTranslate(1,0, r.driveSpeedMin,1500), /**Overridden by switch*/
                 fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
                 fieldTranslate(0,1,r.driveSpeedMin,500),
+                fieldTranslate(0,0,0,500),
         };
         switch (posDist) {
             case 0: /**Closest column, could be right or left.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,800);
                 break;
             case 1: /**Center column.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,3000);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1200);
                 break;
             case 2: /**Farthest column, could be left or right.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,4500);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1600);
                 break;
         }
         /**Parallel to procedures array. Stores which motions are mirrored for opposite color.*/
@@ -201,13 +189,13 @@ public class AutoODVuforia extends LinearOpMode {
 
         return procedures;
     }
+
     double[][] proceduresForShortSide(boolean isRed, int posDist) {
-        /**Copy-Pasted from proceduresForLongSide.*/
-        /**posDist determines farness of column, still.*/
-        //TODO: Create procedures that work for short side.
+        /**Same as proceduresForLongSide but with different procedures and mirroredWhenBlue. Could
+         * probably be condensed, but doesn't really need to be.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(1,0, r.driveSpeedMin,1500),
-                fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
+                fieldTranslate(0,1, r.driveSpeedMin,1500), /**Overridden by switch*/
+                fieldRotate(true,0.5 * r.driveSpeedMin, 1000),
                 fieldTranslate(0,1,r.driveSpeedMin,500),
         };
         switch (posDist) {

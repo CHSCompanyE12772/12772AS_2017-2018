@@ -6,9 +6,10 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
-@TeleOp(name="CHRISTIAN DriveOD", group="OD")
-//@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+@TeleOp(name="No arm, old DriveOD", group="OD")
+@Disabled         //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class Armless_DriveOD extends LinearOpMode {
 
     Armless_Hardware_OD_OmniDirection r = new Armless_Hardware_OD_OmniDirection(); //Use the shared hardware and function code.

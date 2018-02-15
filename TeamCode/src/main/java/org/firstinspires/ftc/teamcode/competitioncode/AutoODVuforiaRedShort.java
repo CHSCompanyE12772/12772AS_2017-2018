@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * child for Red corner with cryptobox on short side.
  */
 
-@Autonomous(name = "AutoOD Vuforia Red Short", group = "OD")
+@Autonomous(name = "AutoOD Vuforia Red Short", group = "OD_VF")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaRedShort extends AutoODVuforia
 {
@@ -18,6 +18,7 @@ public class AutoODVuforiaRedShort extends AutoODVuforia
     double[][] getCenterSideProcedures(){
         return proceduresForShortSide(true, 1);
     }
-    double[][] getRightSideProcedures(){ return proceduresForShortSide(true, 0);
+    double[][] getRightSideProcedures(){
+        return proceduresForShortSide(true, 0);
     }
 }
