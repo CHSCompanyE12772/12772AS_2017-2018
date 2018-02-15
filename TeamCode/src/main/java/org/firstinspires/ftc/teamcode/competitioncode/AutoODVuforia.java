@@ -18,10 +18,13 @@ import java.util.Arrays;
  * Autonomous "OP mode" to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
-@Autonomous(name = "AutoOD Vuforia Body", group = "OD")
-//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
-//TODO: Test if this can be made abstract or disabled from usage, only used for children.
-public class AutoODVuforia extends LinearOpMode {
+@Autonomous(name = "Error! [AutoOD Vuforia Body]", group = "OD")
+
+/**Because this is an abstract class and will not run, we will disable it to prevent it from being
+ * seen on Driver Station. Children of this superclass do not inherit @Disabled.*/
+@Disabled
+
+public abstract class AutoODVuforia extends LinearOpMode {
 
     Hardware_OD_OmniDirection r = new Hardware_OD_OmniDirection();
     General12772 g = new General12772(); //Use the shared general robot code.
@@ -142,19 +145,9 @@ public class AutoODVuforia extends LinearOpMode {
         if (clockwise) speed *= -1;
         return new double[]{0, 0, 1, speed, time};
     }
-    double[][] getLeftSideProcedures(){
-        return new double[][]{
-        };
-    }
-    double[][] getCenterSideProcedures(){
-        return new double[][]{
-        };
-    }
-    double[][] getRightSideProcedures(){
-        return new double[][]{
-        };
-    }
-
+    abstract double[][] getLeftSideProcedures();
+    abstract double[][] getCenterSideProcedures();
+    abstract double[][] getRightSideProcedures();
 
 
     final double[][] testProcedures = new double[][]{
@@ -169,9 +162,10 @@ public class AutoODVuforia extends LinearOpMode {
         /**Procedures for red side.*/
         /**posDist determines farness of column.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(1,0, r.driveSpeedMin,1500), /**Overriden by switch*/
+                fieldTranslate(1,0, r.driveSpeedMin,1500), /**Overridden by switch*/
                 fieldRotate(true,0.5 * r.driveSpeedMin, 1700),
                 fieldTranslate(0,1,r.driveSpeedMin,500),
+                fieldTranslate(0,0,0,500),
         };
         switch (posDist) {
             case 0: /**Closest column, could be right or left.*/
@@ -200,7 +194,7 @@ public class AutoODVuforia extends LinearOpMode {
         /**Same as proceduresForLongSide but with different procedures and mirroredWhenBlue. Could
          * probably be condensed, but doesn't really need to be.*/
         double[][] procedures = new double[][]{
-                fieldTranslate(0,1, r.driveSpeedMin,1500), /**Overriden by switch*/
+                fieldTranslate(0,1, r.driveSpeedMin,1500), /**Overridden by switch*/
                 fieldRotate(true,0.5 * r.driveSpeedMin, 1000),
                 fieldTranslate(0,1,r.driveSpeedMin,500),
         };
