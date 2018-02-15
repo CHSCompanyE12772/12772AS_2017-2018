@@ -18,7 +18,7 @@ import java.util.Arrays;
  * child for Red corner with cryptobox on long side.
  */
 
-@Autonomous(name = "AutoOD Vuforia Red Long", group = "OD")
+@Autonomous(name = "AutoOD Vuforia Red Long", group = "OD_VF")
 //@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaRedLong extends AutoODVuforia
 {

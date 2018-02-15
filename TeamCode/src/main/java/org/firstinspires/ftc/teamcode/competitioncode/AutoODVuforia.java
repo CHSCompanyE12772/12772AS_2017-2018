@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Autonomous "OP mode" to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
-@Autonomous(name = "Error! [AutoOD Vuforia Body]", group = "OD")
+@Autonomous(name = "[Error! Please disable AutoODVuforia]", group = "OD_VF") //If the name displays, an error has occurred.
 
 /**Because this is an abstract class and will not run, we will disable it to prevent it from being
  * seen on Driver Station. Children of this superclass do not inherit @Disabled.*/

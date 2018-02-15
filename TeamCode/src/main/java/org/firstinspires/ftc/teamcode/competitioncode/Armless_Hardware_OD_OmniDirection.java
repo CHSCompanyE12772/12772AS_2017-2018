@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Hardware class for 4-Directional robot with wheels at 45 degree angles (and claw arm).
  * Robot will have drive wheel on each side, and can move in x and z directions as well as rotate.
  * Currently Hardware class being used by robot.
- * TODO: Create option to limit the height mainArm applies holdingPower at.
  * TODO: Shared code between this class and other claw-robot hardware class.
  */
 
