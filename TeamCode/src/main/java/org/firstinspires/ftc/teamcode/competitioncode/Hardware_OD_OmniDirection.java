@@ -222,7 +222,8 @@ class Hardware_OD_OmniDirection {
     void lowerArmSlightly(boolean mode){
         if (mode) {
             mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            mainArmPower = mainArmMaxDownPower;
+            mainArmPower = -mainArmMaxDownPower;
+//            mainArmPower = -1.0;
         } else {
             mainArmPower = 0;
             clawsPOS = 1.0;

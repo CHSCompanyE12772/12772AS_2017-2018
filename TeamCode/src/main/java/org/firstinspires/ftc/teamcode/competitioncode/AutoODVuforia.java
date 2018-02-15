@@ -169,13 +169,13 @@ public abstract class AutoODVuforia extends LinearOpMode {
         };
         switch (posDist) {
             case 0: /**Closest column, could be right or left.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1500);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,800);
                 break;
             case 1: /**Center column.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,3000);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1200);
                 break;
             case 2: /**Farthest column, could be left or right.*/
-                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,4500);
+                procedures[0] = fieldTranslate(1,0, r.driveSpeedMin,1600);
                 break;
         }
         /**Parallel to procedures array. Stores which motions are mirrored for opposite color.*/
