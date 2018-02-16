@@ -124,8 +124,23 @@ public abstract class AutoODVuforia extends LinearOpMode {
         r.update();
         sleep(300);
 
+        //FIXME: Sorry about this...
         //Move backwards after cube dropped
         double[] lastCoords = g.rotateCoords(0, -1);
+        r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMin);
+        r.update();
+        sleep(300);
+        //Hold up, while arm does the opposite.
+        r.povDrive(0,0,0,0,0);
+        r.update();
+        sleep(1000);
+        //Ram cube into slot!!
+        lastCoords = g.rotateCoords(0, 1);
+        r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMed);
+        r.update();
+        sleep(200);
+        //Move backwards after cube is rammed
+        lastCoords = g.rotateCoords(0, -1);
         r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMin);
         r.update();
         sleep(300);
@@ -183,6 +198,7 @@ public abstract class AutoODVuforia extends LinearOpMode {
                 true,
                 true,
                 false,
+                false
         };
         /**Mirror appropriate values for blue side.*/
         if (!isRed) procedures = mirrorProcedures(procedures,mirroredWhenBlue);
