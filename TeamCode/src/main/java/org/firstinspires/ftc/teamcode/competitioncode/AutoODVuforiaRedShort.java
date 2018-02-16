@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.competitioncode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
-
 /**
  * Autonomous OP mode to identify and act using vuforia mark identification,
  * child for Red corner with cryptobox on short side.
