@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.competitioncode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here even when not used, please
 
 
 /**
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 @Autonomous(name = "AutoOD Vuforia Blue Short", group = "OD_VF")
-//@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
+@Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaBlueShort extends AutoODVuforia
 {
     double[][] getLeftSideProcedures(){
