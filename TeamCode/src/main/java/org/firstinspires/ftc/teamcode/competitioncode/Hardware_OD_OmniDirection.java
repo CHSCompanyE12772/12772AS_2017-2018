@@ -60,6 +60,8 @@ class Hardware_OD_OmniDirection {
     double mainArmMaxUpPower = 0.8;
     double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
     boolean mainArmHolding = false;
+    //FIXME: added this line
+    int mainArmMaxHoldingPos = 300;
 
     // DRIVE SPEED
     double driveSpeedMin = 0.25;
