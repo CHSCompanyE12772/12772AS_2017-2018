@@ -36,7 +36,7 @@ public abstract class AutoODVuforia extends LinearOpMode {
         r.mainArmPower = 0;
         r.init(hardwareMap, false);  //Initialization with safe space for snowflake-shakes.
         r.isAutoWorkAround = true;
-        r.clawsPOS = 0.1;  //Claws are set to an extended position
+        r.clawsPOS = 0.1;  //Claws are set to a closed position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
         //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
         r.leftBottomClawOffset = 0.1;

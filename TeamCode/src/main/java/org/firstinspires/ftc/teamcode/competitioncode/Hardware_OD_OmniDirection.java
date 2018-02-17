@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Currently Hardware class being used by robot.
  * TODO: Create option to limit the height mainArm applies holdingPower at.
  * TODO: Shared code between this class and other claw-robot hardware class.
+ * TODO: Privatize variables that may cause future problems.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,11 +38,13 @@ class Hardware_OD_OmniDirection {
     double rightRearDrivePower;
 
     // CLAW MAX AND MIN POS
-    double clawPOSMin = 0.0;
+    /**Zero is closed fully, one is open fully, 0.5 is extended 90 degrees.*/
+    double clawPOSMin = 0.45;
     double clawPOSMax = 1.0;
     double clawsPOS = 0;
 
     //  CLAW OFFSET. used to adjust to real values
+
     double leftBottomClawOffset = 0.0; //Default ideal values, modified later
     double rightBottomClawOffset = 1.0;
     double leftTopClawOffset = 1.0;
@@ -152,7 +155,7 @@ class Hardware_OD_OmniDirection {
     }
 
     //used in Autonomous to set speed but retain direction.
-    void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with objects(?)
+    void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with arrays
         //Left
         if (leftRearDrivePower != 0.0) //avoids divide by zero
             leftRearDrivePower *= speed/Math.abs(leftRearDrivePower); //speed times sign of drivepower
@@ -263,8 +266,9 @@ class Hardware_OD_OmniDirection {
         if (decrease)
             clawsPOS -= incr;
         if (reset)
-            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.2;
-        // = middle position/2 * 1.1
+//            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.2;
+            clawsPOS = 0.5 * 1.2;
+        // = middle position * 1.2, 20% more open than mid-way.
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
 
