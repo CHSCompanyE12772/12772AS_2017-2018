@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Autonomous "OP mode" to identify and act using vuforia mark identification, parent to each corner's OP mode.
  */
 
-@Autonomous(name = "[Error! Please disable AutoODVuforia]", group = "OD_VF") //If the name displays, an error has occurred.
+@Autonomous(name = "[Error! Please disable AutoODVuforia]", group = "OD_VF") //The name should never be seen, thus it is an error me.
 
 /**Because this is an abstract class and will not run, we will disable it to prevent it from being
  * seen on Driver Station. Children of this superclass do not inherit @Disabled.*/
@@ -38,7 +38,6 @@ public abstract class AutoODVuforia extends LinearOpMode {
         r.isAutoWorkAround = true;
         r.clawsPOS = 0.1;  //Claws are set to a closed position
 //        r.initClawServosPOS(r.clawsPOS); //"When you try your best but you don't succeed..."
-        //FIXME: Can't get r.initClawServosPOS to work, so manually set offsets below. See method for details on not working.
         r.leftBottomClawOffset = 0.1;
         r.rightBottomClawOffset = 1.0;
 
@@ -125,6 +124,7 @@ public abstract class AutoODVuforia extends LinearOpMode {
         sleep(300);
 
         //FIXME: Sorry about this...
+        //TODO: Concat fieldMotions to the following procedures before execution.
         //Move backwards after cube dropped
         double[] lastCoords = g.rotateCoords(0, -1);
         r.povDrive(lastCoords[0],lastCoords[1],0,0, r.driveSpeedMin);
