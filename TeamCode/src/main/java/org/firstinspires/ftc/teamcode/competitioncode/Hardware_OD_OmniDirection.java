@@ -24,6 +24,7 @@ class Hardware_OD_OmniDirection {
     DcMotor rightFrontDrive = null;
     DcMotor leftFrontDrive = null;
     DcMotor rightRearDrive = null;
+    DcMotor[] driveMotors = {leftRearDrive, rightFrontDrive, leftFrontDrive, rightRearDrive};
     DcMotor mainArm = null;
 
     Servo leftTopClaw = null;
@@ -36,6 +37,7 @@ class Hardware_OD_OmniDirection {
     double rightFrontDrivePower;
     double leftFrontDrivePower;
     double rightRearDrivePower;
+    double[] drivePowers = {leftRearDrivePower, rightFrontDrivePower, leftFrontDrivePower, rightRearDrivePower};
 
     // CLAW MAX AND MIN POS
     /**Zero is closed fully, one is open fully, 0.5 is extended 90 degrees.*/
@@ -107,33 +109,25 @@ class Hardware_OD_OmniDirection {
         // This arm is backwards too, probably.
         mainArm.setDirection(DcMotor.Direction.FORWARD);
 
-        // Set all motors to zero power, juuuust in case
-        leftRearDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftFrontDrive.setPower(0);
-        rightRearDrive.setPower(0);
+        // Set all motors to zero power, juuuust in cas
+        for (DcMotor motor : driveMotors)
+            motor.setPower(0);
         mainArm.setPower(0);
 
         /*
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
         */
-        if (isAuto) { //TODO: we could probably make this if-else less repetitive with a polymorphic for loop and array
-            leftRearDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            leftFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightRearDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-            leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (isAuto) { //TODO: we could probably make this if-else less repetitive with an array
+            for (DcMotor motor : driveMotors) {
+                motor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
         }
         else {
-            leftRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            for (DcMotor motor : driveMotors) {
+                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
         }
         mainArm.setMode(DcMotor.RunMode.RESET_ENCODERS); //resting position set to zero
         mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Default & shakeless. OP modes can change this if needed.
@@ -144,10 +138,8 @@ class Hardware_OD_OmniDirection {
     //Main function usually called repeatedly after 'Start'
     void update(){
         // Send calculated power to DRIVE MOTORS
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
+        for (int i = 0; i < driveMotors.length; i++)
+            driveMotors[i].setPower(drivePowers[i]);
         moveClaw(clawsPOS);
         if (mainArmPositionX != -1)
             mainArm.setTargetPosition(mainArmPositionX);
@@ -158,26 +150,12 @@ class Hardware_OD_OmniDirection {
 
     //used in Autonomous to set speed but retain direction.
     void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with arrays
-        //Left
-        if (leftRearDrivePower != 0.0) //avoids divide by zero
-            leftRearDrivePower *= speed/Math.abs(leftRearDrivePower); //speed times sign of drivepower
-        else
-            leftRearDrivePower = speed; //if zero, set to zero.
-        //Right
-        if (rightFrontDrivePower != 0.0)
-            rightFrontDrivePower *= speed/Math.abs(rightFrontDrivePower);
-        else
-            rightFrontDrivePower = speed;
-        //Front
-        if (leftFrontDrivePower != 0.0) //avoids divide by zero
-            leftFrontDrivePower *= speed/Math.abs(leftFrontDrivePower); //speed times sign of drivepower
-        else
-            leftFrontDrivePower = speed; //if zero, set to zero.
-        //Back
-        if (rightRearDrivePower != 0.0)
-            rightRearDrivePower *= speed/Math.abs(rightRearDrivePower);
-        else
-            rightRearDrivePower = speed;
+        for (int i = 0; i < drivePowers.length; i++) {
+            if (drivePowers[i] != 0.0)//avoids divide by zero
+                drivePowers[i] *= speed / Math.abs(drivePowers[i]);//speed times sign of drivepower
+            else
+                drivePowers[i] = speed;//if zero, set to zero.
+        }
     }
 
     //set drivePower given single-joystick input
