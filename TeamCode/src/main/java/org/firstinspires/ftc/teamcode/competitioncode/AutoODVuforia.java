@@ -122,7 +122,6 @@ public abstract class AutoODVuforia extends LinearOpMode {
         r.lowerArmSlightly(false);
         r.update();
         sleep(300);
-
         //FIXME: Sorry about this...
         //TODO: Concat fieldMotions to the following procedures before execution.
         //Move backwards after cube dropped
