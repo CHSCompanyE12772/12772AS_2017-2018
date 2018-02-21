@@ -118,7 +118,7 @@ class Hardware_OD_OmniDirection {
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
         */
-        if (isAuto) { //TODO: we could probably make this if-else less repetitive with an array
+        if (isAuto) {
             for (DcMotor motor : driveMotors) {
                 motor.setMode(DcMotor.RunMode.RESET_ENCODERS);
                 motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -149,7 +149,7 @@ class Hardware_OD_OmniDirection {
     }
 
     //used in Autonomous to set speed but retain direction.
-    void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with arrays
+    void setDriveSpeed(double speed){
         for (int i = 0; i < drivePowers.length; i++) {
             if (drivePowers[i] != 0.0)//avoids divide by zero
                 drivePowers[i] *= speed / Math.abs(drivePowers[i]);//speed times sign of drivepower
@@ -272,9 +272,5 @@ class Hardware_OD_OmniDirection {
 
         leftTopClaw.setPosition(leftTopClawOffset - toPosition);
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);
-    }
-    void moveAuto(double sortOfX, double sortOfY, double rot, double speed){
-        povDrive(sortOfX, sortOfY, rot, 0, speed);
-        update();
     }
 }
