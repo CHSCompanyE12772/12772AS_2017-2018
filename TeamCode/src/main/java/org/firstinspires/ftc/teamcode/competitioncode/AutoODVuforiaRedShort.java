@@ -12,13 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled; // Leave this line here
 @Disabled                            //Enables or disables such OpMode (hide or show on Driver Station OpMode List)
 public class AutoODVuforiaRedShort extends AutoODVuforia
 {
-    double[][] getLeftSideProcedures(){
+    @Override double[][] getLeftSideProcedures(){
         return proceduresForShortSide(true, 2);
     }
-    double[][] getCenterSideProcedures(){
+    @Override double[][] getCenterSideProcedures(){
         return proceduresForShortSide(true, 1);
     }
-    double[][] getRightSideProcedures(){
+    @Override double[][] getRightSideProcedures(){
         return proceduresForShortSide(true, 0);
     }
 }

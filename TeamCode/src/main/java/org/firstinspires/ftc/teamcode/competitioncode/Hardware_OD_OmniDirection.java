@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * Currently Hardware class being used by robot.
  * TODO: Create option to limit the height mainArm applies holdingPower at.
  * TODO: Shared code between this class and other claw-robot hardware class.
+ * TODO: Privatize variables that may cause future problems.
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,6 +24,7 @@ class Hardware_OD_OmniDirection {
     DcMotor rightFrontDrive = null;
     DcMotor leftFrontDrive = null;
     DcMotor rightRearDrive = null;
+    DcMotor[] driveMotors = {leftRearDrive, rightFrontDrive, leftFrontDrive, rightRearDrive};
     DcMotor mainArm = null;
 
     Servo leftTopClaw = null;
@@ -35,13 +37,16 @@ class Hardware_OD_OmniDirection {
     double rightFrontDrivePower;
     double leftFrontDrivePower;
     double rightRearDrivePower;
+    double[] drivePowers = {leftRearDrivePower, rightFrontDrivePower, leftFrontDrivePower, rightRearDrivePower};
 
     // CLAW MAX AND MIN POS
-    double clawPOSMin = 0.0;
+    /**Zero is closed fully, one is open fully, 0.5 is extended 90 degrees.*/
+    double clawPOSMin = 0.45;
     double clawPOSMax = 1.0;
     double clawsPOS = 0;
 
     //  CLAW OFFSET. used to adjust to real values
+
     double leftBottomClawOffset = 0.0; //Default ideal values, modified later
     double rightBottomClawOffset = 1.0;
     double leftTopClawOffset = 1.0;
@@ -57,6 +62,8 @@ class Hardware_OD_OmniDirection {
     double mainArmMaxUpPower = 0.8;
     double mainArmMaxDownPower = mainArmHoldingPower + 0.05;
     boolean mainArmHolding = false;
+    //FIXME: added this line
+    int mainArmMaxHoldingPos = 300;
 
     // DRIVE SPEED
     double driveSpeedMin = 0.25;
@@ -102,33 +109,25 @@ class Hardware_OD_OmniDirection {
         // This arm is backwards too, probably.
         mainArm.setDirection(DcMotor.Direction.FORWARD);
 
-        // Set all motors to zero power, juuuust in case
-        leftRearDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftFrontDrive.setPower(0);
-        rightRearDrive.setPower(0);
+        // Set all motors to zero power, juuuust in cas
+        for (DcMotor motor : driveMotors)
+            motor.setPower(0);
         mainArm.setPower(0);
 
         /*
         RELEASE THE SHAKIN'!! Running using encoders causes motors to shake a bit, so best to
         avoid when possible.
         */
-        if (isAuto) { //TODO: we could probably make this if-else less repetitive with a polymorphic for loop and array
-            leftRearDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            leftFrontDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-            rightRearDrive.setMode(DcMotor.RunMode.RESET_ENCODERS);
-
-            leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if (isAuto) {
+            for (DcMotor motor : driveMotors) {
+                motor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
         }
         else {
-            leftRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            rightRearDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            for (DcMotor motor : driveMotors) {
+                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
         }
         mainArm.setMode(DcMotor.RunMode.RESET_ENCODERS); //resting position set to zero
         mainArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Default & shakeless. OP modes can change this if needed.
@@ -139,10 +138,8 @@ class Hardware_OD_OmniDirection {
     //Main function usually called repeatedly after 'Start'
     void update(){
         // Send calculated power to DRIVE MOTORS
-        leftRearDrive.setPower(leftRearDrivePower);
-        rightFrontDrive.setPower(rightFrontDrivePower);
-        leftFrontDrive.setPower(leftFrontDrivePower);
-        rightRearDrive.setPower(rightRearDrivePower);
+        for (int i = 0; i < driveMotors.length; i++)
+            driveMotors[i].setPower(drivePowers[i]);
         moveClaw(clawsPOS);
         if (mainArmPositionX != -1)
             mainArm.setTargetPosition(mainArmPositionX);
@@ -152,27 +149,13 @@ class Hardware_OD_OmniDirection {
     }
 
     //used in Autonomous to set speed but retain direction.
-    void setDriveSpeed(double speed){ //TODO: could probably make this code less repetitive with objects(?)
-        //Left
-        if (leftRearDrivePower != 0.0) //avoids divide by zero
-            leftRearDrivePower *= speed/Math.abs(leftRearDrivePower); //speed times sign of drivepower
-        else
-            leftRearDrivePower = speed; //if zero, set to zero.
-        //Right
-        if (rightFrontDrivePower != 0.0)
-            rightFrontDrivePower *= speed/Math.abs(rightFrontDrivePower);
-        else
-            rightFrontDrivePower = speed;
-        //Front
-        if (leftFrontDrivePower != 0.0) //avoids divide by zero
-            leftFrontDrivePower *= speed/Math.abs(leftFrontDrivePower); //speed times sign of drivepower
-        else
-            leftFrontDrivePower = speed; //if zero, set to zero.
-        //Back
-        if (rightRearDrivePower != 0.0)
-            rightRearDrivePower *= speed/Math.abs(rightRearDrivePower);
-        else
-            rightRearDrivePower = speed;
+    void setDriveSpeed(double speed){
+        for (int i = 0; i < drivePowers.length; i++) {
+            if (drivePowers[i] != 0.0)//avoids divide by zero
+                drivePowers[i] *= speed / Math.abs(drivePowers[i]);//speed times sign of drivepower
+            else
+                drivePowers[i] = speed;//if zero, set to zero.
+        }
     }
 
     //set drivePower given single-joystick input
@@ -263,8 +246,9 @@ class Hardware_OD_OmniDirection {
         if (decrease)
             clawsPOS -= incr;
         if (reset)
-            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.2;
-        // = middle position/2 * 1.1
+//            clawsPOS = clawPOSMin + (clawPOSMax-clawPOSMin)/2 * 1.2;
+            clawsPOS = 0.5 * 1.2;
+        // = middle position * 1.2, 20% more open than mid-way.
         clawsPOS = Range.clip(clawsPOS, clawPOSMin, clawPOSMax);
     }
 
@@ -288,9 +272,5 @@ class Hardware_OD_OmniDirection {
 
         leftTopClaw.setPosition(leftTopClawOffset - toPosition);
         rightTopClaw.setPosition(rightTopClawOffset + toPosition);
-    }
-    void moveAuto(double sortOfX, double sortOfY, double rot, double speed){
-        povDrive(sortOfX, sortOfY, rot, 0, speed);
-        update();
     }
 }
