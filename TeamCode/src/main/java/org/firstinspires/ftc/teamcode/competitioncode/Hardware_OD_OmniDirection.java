@@ -7,6 +7,8 @@ package org.firstinspires.ftc.teamcode.competitioncode;
  * TODO: Create option to limit the height mainArm applies holdingPower at.
  * TODO: Shared code between this class and other claw-robot hardware class.
  * TODO: Privatize variables that may cause future problems.
+ * FIXME: FIXME: FIXME: Some bug not detected by IDE seems to have been pushed to all GitHub branches. Need to find and fix bug, and fast.
+ *
  */
 
 import com.qualcomm.robotcore.hardware.DcMotor;
